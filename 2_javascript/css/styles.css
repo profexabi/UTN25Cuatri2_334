@@ -7,4 +7,5 @@ body {
     font-family: monospace;
     background-color: var(--gris-fondo);
     color: var(--blanco-fuente);
+    font-size: 1.2rem;
 }
