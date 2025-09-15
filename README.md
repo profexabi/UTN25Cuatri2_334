@@ -2,6 +2,256 @@
 
 # JavaScript :scroll:
 
+---
+
+## JavaScript V / Objetos, clases y objetos globales. Almacenamiento persistente, iteracion en arrays, iteracion en objetos e iteracion en arrays de objetos
+```js
+
+```
+
+---
+
+## JavaScript IV / Introduccion a arrays. Metodos de strings y arrays
+```js
+/*===================================
+    Arrays  y Objetos en JavaScript
+=====================================
+En JavaScript, los arrays y objetos son estructuras de datos fundamentales.
+
+- Los arrays se utilizan para almacenar una lista ORDENADA de elementos
+    - Cada elemento de neustro array tiene una posicion o indice
+    - Pueden contener cualquier tipo de dato (numeros, strings, booleanos, otros arrays, objetos, funciones, etc)
+    - Los elementos no tienen que ser del mismo tipo
+
+
+- Los objetos son ideales para almacenar o agrupar datos con propiedades clave-valor
+    - Los objetos son colecciones con pares clave-valor
+    - Las claves son cadenas que identifican cada valor, esto permite un acceso rapido y estructurado a los datos
+    - los objetos son utiles cuando queremos representar una entidad con multiples propiedades
+    - Accedemos a las propiedades de un objeto a traves de la notacion de punto (objeto.propiedad) o la notacion de corchete (objeto["propiedad"])
+
+
+Uso principal:  
+    - Array como lista ordenada de elementos
+    - Objeto como coleccion de pares clave valor
+
+Acceso a datos:
+    - Accedemos al array por su indice (array[0])
+    - Accedemos al objeto por su clave (objeto.clave / objeto["clave"])
+
+Metodos:
+    - En arrays contamos con push(), pop(), map()
+    - Metodos personalizados y funciones
+
+Iteracion:
+    - forEach(), map(), etc
+    - for...in, Object.keys(), Object.values()
+*/
+
+// Array
+let frutas = ["manzana", "banana", "pera"];
+
+console.log(frutas[0]); // manzana
+
+
+// Objeto
+let estudiante = {
+    nombre: "Rodrigo",
+    edad: 32,
+    ciudad: "Cordoba",
+    saludar: function() {
+        return `Hola, me llamo ${this.nombre}, soy cantante de cuarteto de ${this.ciudad}`
+    }
+}
+
+console.log(estudiante);
+
+// Notacion de punto
+console.log(estudiante.nombre);
+
+// Notacion de corchetes
+console.log(estudiante["ciudad"]);
+
+// Accedemos a sus metodos, funciones internas del objeto
+console.log(estudiante.saludar());
+
+// Agregamos una propiedad
+estudiante.estilo = "Cuarteto";
+
+// Eliminamos una propiedad
+delete estudiante.edad;
+
+
+
+/* ===============================
+    Metodos de strings
+==================================*/
+
+let saludo = "Hola desde la 334";
+for (let i = 0; i < saludo.length; i++) {
+    console.log(saludo[i]);
+}
+
+// length: devuelve la longitud del string
+console.log("Hola mundo".length);
+
+
+// charAt(index): Devulve el caracter en la posicion especificada
+console.log("Hola".charAt(3));
+
+
+// concat: Concatenar (unir) strings
+console.log("Hola".concat(" ", "mundo"));
+let saludo2 = "Aguante el cuarteto";
+console.log(saludo.concat(" ", saludo2));
+
+
+// includes: Devuelve true si la subcadena se encuentra en el string
+console.log("JavaScript".includes("script")); // false
+console.log("JavaScript".includes("Script")); // true
+
+
+// startsWith: Comprueba si el string comienza con la subcadena
+console.log("Hola mundo".startsWith("Hola")); // true
+
+
+// endsWith: Comprueba si el string termina con el substring
+console.log("Hola mundo".endsWith("mundo")); // true
+
+
+// indexOf: Devuelve el indice de la PRIMERA aparicion de un substrinig
+console.log("banana".indexOf("a"));
+
+
+// lastIndexOf: Devuelve el indice de la ULTIMA aparicion del substring
+console.log("banana".lastIndexOf("a"));
+
+
+// replace: Reemplazar una parte del string
+console.log("Hola mundo".replace("mundo", "division 334"));
+
+
+// replaceAll: Reemplaza todas las apariciones
+console.log("1,2,3".replaceAll(",", ";"));
+
+
+// toLowerCase: Convierte a minusculas
+console.log("AGUANTE JAVASCRIPT VIEJO! NO ME IMPORTA NADA!!".toLowerCase());
+
+
+// toUpperCase: Convierte a mayusculas
+console.log("holis, uwu, T.T".toUpperCase());
+
+
+// trim: Elimina espacios en blanco al inicio y al final
+console.log("           holis          ".trim());
+
+
+// trimStart: Elimina espacios al inicio
+console.log("           holis    ".trimStart());
+
+// trimEnd: Elimina espacios al final
+console.log("      holis       ".trimEnd());
+
+
+// slice: Extrae parte del string
+console.log("JavaScript".slice(0, 4));
+console.log("JavaScript".slice(-4)); // ript
+
+
+// substring: Extrae parte del string, muy parecido a slice, pero no acepta negativos
+console.log("JavaScript".substring(4, 10));
+
+
+// split: Divide el string en un array
+console.log("rojo,verde,azul".split(","));
+console.log("rojo, verde, azul".split(", "));
+console.log("Holus".split(""));
+
+
+// repeat: Repite el string
+console.log("ji".repeat(3));
+
+
+// match(regex): Devuelve coincidencias con una expresion regular
+console.log("abc123".match(/\d+/g));
+
+
+
+/* ===============================
+    Metodos de arrays
+==================================*/
+
+// let frutas = ["manzana", "banana", "pera"];
+for (let i = 0; i < frutas.length; i++) {
+    console.log(frutas[i]);
+}
+
+// length: Devuelve la longitud del array
+console.log([1, 2, 3,4, 5, 6, 7, 8, 9].length);
+console.log(frutas.length);
+
+
+// push: Agrega un elemento al FINAL del array
+frutas.push("pomelo");
+console.log(frutas);
+frutas.push("anana", "frambuesa", "sandia");
+
+
+// pop: Elimina el ULTIMO elemento y lo devuelve
+console.log(frutas.pop());
+
+
+// unshift: Agrega un elemento al INICIO del array
+frutas.unshift("cereza");
+
+
+// shift: Elimina el primer elemento y lo devuelve
+console.log(frutas.shift());
+
+
+// concat: Concatena arrays;
+let ingredientes = ["avena, semillas, maca"];
+console.log(frutas.concat(ingredientes));
+console.log([1, 2].concat(3, 4));
+
+
+// join: une los elementos en un string
+console.log([1, 2, 3].join("-"));
+
+
+// slice: Extrae una copia parcial del array
+console.log([1, 2, 3, 4].slice(1, 3));
+
+
+// splice: Modifica el array in situ, puede borrar y agregar
+// https://www.w3schools.com/jsref/jsref_splice.asp
+const arr = [1, 2, 3];
+arr.splice(1, 0, "dos");
+console.log(arr); // [1, 'dos', 2, 3]
+
+const verduras = ["tomate", "lechuga", "albahaca"];
+verduras.splice(1, 0, "rucula"); // primer argumento determina la posicion
+console.log(verduras);
+
+
+// indexOf: Devuelve la PRIMERA POSICION del elemento
+console.log([1, 2, 3].indexOf(2)); // 1, porque el elemento 2 esta en la posicion 1
+console.log([1, 2, 3].indexOf(4)); // Si no se encuentra, devuelve -1
+
+
+// lastIndexOf: Ultima posicion del elemento
+console.log([1, 2, 3, 4, 5, 2, 3, 4, 5, 1, 2].lastIndexOf(4));
+
+
+// includes: Devuelve true si el elemento existe
+console.log([1, 2, 3].includes(2)); // true
+console.log([1, 2, 3].includes(4)); // false
+```
+
+
+---
+
 #### [GDB Portfolio](https://onlinegdb.com/492D6SjRM)
 ## JavaScript III / Scope y ambito, funciones, tipos de funciones, parametros y argumentos, funciones flecha
 
@@ -813,10 +1063,3 @@ console.log(g);
 
 ## JavaScript VI / Manipulacion del DOM en JavaScript y Eventos
 
----
-
-## JavaScript V / Objetos, clases y objetos globales. Almacenamiento persistente, iteracion en arrays, iteracion en objetos e iteracion en arrays de objetos
-
----
-
-## JavaScript IV / Introduccion a arrays. Metodos de strings y arrays
