@@ -4,6 +4,12 @@
 
 ---
 
+### Online GDB maquetando el portfolio
+- [HTML](https://onlinegdb.com/nxOnne9fJ)
+- [CSS](https://onlinegdb.com/Y2RD1oosZW)
+
+---
+
 ## JavaScript V / Objetos, clases y objetos globales. Almacenamiento persistente, iteracion en arrays, iteracion en objetos e iteracion en arrays de objetos
 
 #### [Resumen y Guia referencia MDN](https://developer.mozilla.org/es/docs/Web/JavaScript/Reference/Global_Objects/Array)
