@@ -206,6 +206,7 @@ let input = document.getElementById("input");
 
 // Registramos cada tecla del evento cuando hacemos keydown
 input.addEventListener("keydown", function(event) {
+    // keydown se dispara cuando se presiona una tecla
     console.log(`Tecla presionada: ${event.key}`); // Hacemos un mapeo de cada tecla cuando la pulsamos (tambien podemos mapear el codigo de la tecla con event.code)
 });
 
@@ -214,12 +215,55 @@ input.addEventListener("keydown", function(event) {
 let barraBusqueda = document.getElementById("barraBusqueda");
 
 barraBusqueda.addEventListener("keyup", function() {
+    // keyup se dispara cuando se libera una tecla
     let valorBusqueda = barraBusqueda.value;
     console.log(valorBusqueda);
+});
+
+
+/* ===============================
+    Propagacion de eventos 
+==================================
+
+Cuando ocurre un evento, este se propaga a traves del DOM en dos fases
+
+- Fase de captura, de arriba para abajo
+- Fase de burbuja, de abajo para arriba
+
+Podemos detener la propagacion de un evento usando el metodo event.stopPropagation
+*/
+
+/*
+function sumar (a, b) {} // a y b son parametros
+sumar(5, 6); // 5 y 6 son argumentos
+*/
+
+let padre = document.getElementById("padre");
+let hijo = document.getElementById("hijo");
+
+// Escuchamos el click en el div padre
+padre.addEventListener("click", function() {
+    console.log("Se hizo click en el div padre");
+});
+
+// Escuchamos el click en el boton hijo
+hijo.addEventListener("click", function(event) {
+    event.stopPropagation();
+    console.log("Se hizo click en el boton hijo");
+});
+
+
+// Evitamos el envio por defecto de los formularios HTML
+let formulario = document.getElementById("formulario");
+
+formulario.addEventListener("submit", function(event) {
+    event.preventDefault();
+    console.log("Formulario no enviado");
 });
 ```
 
 ---
+
 
 ## JavaScript V / Objetos, clases y objetos globales. Almacenamiento persistente, iteracion en arrays, iteracion en objetos e iteracion en arrays de objetos
 

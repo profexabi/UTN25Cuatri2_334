@@ -9,3 +9,8 @@ body {
     color: var(--blanco-fuente);
     font-size: 1.2rem;
 }
+
+#padre {
+    border: 4px solid green;
+    padding: 10px;
+}
