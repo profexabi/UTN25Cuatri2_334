@@ -2,6 +2,16 @@
 
 # JavaScript :scroll:
 
+### Temas recomendados
+- One Dark Pro
+- gruvbox
+
+---
+
+### Enlaces recomendados
+- [let vs const en JavaScript](https://stackoverflow.com/questions/41086633/in-javascript-why-should-i-usually-prefer-const-to-let)
+- [online gdb Emma](https://onlinegdb.com/jlYqu0DPFR)
+
 ---
 
 ### Online GDB maquetando el portfolio
