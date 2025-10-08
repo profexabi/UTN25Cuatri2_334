@@ -23,27 +23,30 @@
 
 ## JavaScript VII / High order functions, destructuring, spread operator, closures, funciones anidadas, callbacks, web apis
 
+- [Clase grabada JS VII parte 1](https://youtu.be/3-TLK2UpBas)
+- [Clase grabada JS VII parte 2](https://youtu.be/QyDQ2TerA6k)
+
 ```js
 /*==============
     Callbacks
 ================
-
-Funciones que se pasan como argumentos a otras funciones para ser ejecutadas despues
-*/
+Funciones que se pasan como argumentos a otras funciones para ser ejecutadas despues */
 
 
 // Ejemplo 1 -> Callback
 function procesarDatos(datos, callback) {
-    console.log("Procesando datos...");
+    console.log("Procesando datos..."); // Procesando datos...
 
-    const resultado = datos.toUpperCase();
+    const resultado = datos.toUpperCase(); // HOLA MUNDO
 
-    callback(resultado); // Ejecuta la funcion callback
+    callback(resultado); // Ejecuta la funcion callback y le pasa como parametro a la funcion "HOLA MUNDO"
 }
 
 procesarDatos("hola mundo", (res) => {
-    console.log(`Resultado: ${res}`);
+    console.log(`Resultado: ${res}`); // Resultado: HOLA MUNDO
 });
+
+
 
 /* Un callback es una funcion que se pasa como argumento a otra funcion y que se ejecuta despues de que algo haya ocurrido. Es como decirle a una funcion:
 
@@ -57,7 +60,7 @@ Para que se usan los callbacks?
     - Hacer el codigo mas flexible y reutilizable
 */
 
-// Ejemplo 2 -> Callback
+// Ejemplo 2 -> Callback muy parecido al anterior
 function saludar (nombre) {
     console.log(`Hola, ${nombre}`);
 }
@@ -68,7 +71,7 @@ function procesarUsuario(nombre, callback) {
     callback(nombre); // Llamamos al callback
 }
 
-procesarUsuario("Pedro", saludar);
+procesarUsuario("Pedro", saludar); // Hola, Pedro
 
 /* Que pasó acá?
 
@@ -98,7 +101,259 @@ console.log("Fin");
     - Uso: Ejecutar codigo despues de una accion o de forma personalizada
 
     - Ejemplos: setTimeout, addEventListener, funciones que reciben otras funciones
+
+
+
+===================================================
+    Caracteristicas principales de los callbacks
+===================================================
+
+1. Funciones de primera clase
+
+En JavaScript, las funciones son "ciudadanos de primera clase", lo que significa que las funciones puede ser:
+
+    - Asignadas a variables
+    - Pasadas como argumentos
+    - Retornadas desde otras funciones
 */
+
+// Asignar una funcion a una variable
+const miCallback = function() {
+    console.log("Callback ejecutado");
+}
+
+// Pasar como argumento
+function ejecutarCallback(callback) {
+    callback();
+}
+
+ejecutarCallback(miCallback); // Callback ejecutado
+
+
+// 2. Sincronia vs Asincronia
+
+// Ejemplo callback sincrono
+function procesoPesado(callback) {
+    console.log("Iniciando proceso");
+
+    // Simulamos un procesamiento de datos
+    for (let i = 0; i < 1000; i++) {
+        callback();
+    }
+}
+
+/*
+procesoPesado(function() {
+    console.log("Proceso completado")
+});
+
+console.log("Esto se ejecuta despues del callback");
+*/
+
+// Ejemplo callback asincrono (se ejecuta en paralelo)
+function procesoAsincrono(callback) {
+    console.log("Iniciando proceso asincrono...");
+
+    setTimeout(function() {
+        callback();
+    }, 2000);
+}
+
+procesoAsincrono(function() {
+    console.log("Proceso asincrono completado");
+});
+
+
+console.log("Esto se ejecuta inmediatamente");
+
+
+
+////////////////////////////////////////
+// Casos de uso comunes de callbacks //
+
+
+/////////////////////
+// 1. Temporizadores (timers)
+setTimeout(function() { // setTimeout se ejecuta una sola vez
+    console.log("Esto se va a ejecutar dentro de 3 segundos");
+}, 3000);
+
+
+// setInterval es un setTimeout que se repite
+// setInterval se ejecuta a intervalos (la funcion se repite cada x segundos)
+let contador = 0;
+const intervalo = setInterval(function() {
+    contador++;
+    console.log(`Contador: ${contador}`);
+
+    if(contador === 5) {
+        clearInterval(intervalo);
+    }
+}, 1000);
+
+
+
+
+
+/////////////////////
+// 2. Eventos del DOM
+let boton = document.getElementById("miBoton");
+
+boton.addEventListener("click", function(event) {
+    console.log(`Boton clickeado`, event.target);
+});
+
+
+
+
+/////////////////////
+// 3. Operaciones con arrays
+const numeross = [1, 2, 3, 4, 5];
+
+// forEach
+numeross.forEach(function(num, indice) {
+    console.log(`Indice: ${indice}, valor: ${num}`);
+});
+
+
+// forEach 2
+console.log("Testeando 3er parametro del forEach");
+numeross.forEach(function(num, index, arr) {
+    arr[index] = num + 10;
+});
+
+console.log(numeross);
+
+
+// map
+const duplicados = numeross.map(function(num) {
+    return num * 2;
+});
+
+console.log(duplicados);
+
+
+
+
+/////////////////////
+// 4. Peticiones HTTP
+
+// Ver ejemplo de peticion con fetch mas abajo
+
+
+
+
+
+/////////////////////
+// 5. Lectura de Archivos (Node.js) -> Lo vemos mas adelante en Node.js
+/*
+const fs = require("fs");
+
+// Lectura asincrona
+fs.readFile("saludos.txt", "utf-8", function(error, contenido) {
+    if (error) {
+        console.error("Error leyendo archivo", error);
+        return;
+    }
+
+    console.log("Contenido del archivo: ", contenido)
+});
+*/
+
+/* 
+Ventajas de los callbacks:
+    - Simplicidad: Facil de entender para operaciones simples
+    - Universalidad: Compatible con todos los navegadores
+    - Flexibilidad: Permiten crear codigo reutilizable
+
+
+Desventajas de los callbacks:
+    - Callback Hell: Anidamiento excesivo que dificulta la lectura
+    - Manejo de errores: Complicado con callbacks anidados
+    - Flujo de control: Dificil de seguir con operaciones complejas
+
+
+Alternativas modernas:
+
+- Promesas: .then().catch()
+- Async/await: Sintaxis mas limpia y legible
+*/
+
+
+
+
+
+
+/* ======================================
+    Diferencias entre HOF y Callbacks
+=========================================
+
+1. Callback: Es simplemente una funcion que le pasamos como argumento a otra funcion y que sera llamada en algun momento dentro de esa funcion.
+Es el uso concreto de pasar una funcion como parametro
+*/
+
+function procesarUsuario(nombre, callback) {
+    console.log(`Procesando usuario: ${nombre}`);
+    callback(nombre);
+}
+
+
+// El callback aca es -> function(n) { console.log(`Bienvenido ${n}`); }
+
+procesarUsuario("Mateo", function(n) {
+    console.log(`Bienvenido ${n}`);
+});
+
+
+/* 2. High Order Function: Es una funcion que cumple AL MENOS UNA de estas dos condiciones:
+
+    - Recibe una o mas funciones como argumentos (map, filter, reduce)
+    - Devuelve una funcion como resultado
+*/
+
+// const numeross = [1, 2, 3, 4, 5];
+
+// Caso 1: Recibe una funcion
+const cuadradoss = numeross.map(n => n * n); // map es una HOF porque recibe un callback como argumento
+console.log(cuadradoss);
+
+
+
+// Caso 2: Devuelve una funcion
+function multiplicador(factor) {
+    return function(num) {
+        return num * factor;
+    }
+}
+
+const duplicar = multiplicador(2);
+console.log(multiplicador); 
+/* Retorna:
+
+multiplicador(factor) {
+    return function(num) {
+        return num * factor;
+    }
+}
+*/
+
+console.log(duplicar);
+/*
+(num) {
+        return num * factor;
+    }
+*/
+
+console.log(duplicar(5)); // 10
+
+/* En resumen:
+
+- Callback: La funcion pasada como argumento
+- High Order Function: Es la funcion que recibe o devuelve funciones
+
+- Estan relacionadas pero no son equivalentes: Un callback es usando dentro de una HOF, pero no todas las HOF usan callbacks explicitamente porque pueden devolver funciones en lugar de recibirlas
+*/
+
 
 
 
@@ -161,7 +416,9 @@ console.log(saludaDespedida); // ƒ (nombre) { console.log(`${saludo}, ${nombre}
 saludaDespedida("Damian");
 
 
-// HOF comunes en JavaScript
+
+////////////////////////////////
+// HOF comunes en JavaScript //
 
 // forEach: Recorre todos los elementos de un array y ejecuta una funcion sobre cada uno
 
@@ -250,6 +507,256 @@ console.log(frutaEncontrada);
 
 
 
+
+/* ========================
+    Destructuring
+===========================
+El destructuring es una herramienta moderna que nos permite escribir codigo mas limpio, mas corto y mas claro
+Es una forma de "descomponer" estructuras de datos como arrays y objetos en variables individuales, sin necesidad de acceder manualmente a cada elemento o propiedad
+
+Por que usar destructuring?
+- Mejora la legibilidad del codigo
+- Facilita el acceso rapido a datos de estructuras complejas
+- Reduce la verbosidad (menos lineas para obtener lo mismo)
+*/
+
+console.log("DESTRUCTURING \n");
+
+////////////////////////
+// Sin destructuring //
+const numerosss = [1, 2, 3];
+let uno = numerosss[0];
+let dos = numerosss[1];
+console.log(uno, dos);
+
+const persona = { nombre: "Anibal", edad: 40 };
+let nom = persona.nombre;
+let ed = persona.edad;
+
+
+////////////////////////
+// Con destructuring //
+let [primero, segundo] = numerosss;
+console.log(primero, segundo);
+
+let {nombre, edad} = persona;
+console.log(nombre, edad);
+
+// Asignamos a nuevas variables
+let alumno = { nombre: "Emiliano", edad: 35 };
+let { nombre: n, edad: e} = alumno;
+console.log(n, e); // Emiliano 35
+
+// Destructuring en parametros de funcion
+function saludar({nombre, edad}) {
+    console.log(`Hola ${nombre}, tenes ${edad} años`);
+}
+
+saludar(alumno); // Hola Emiliano, tenes 35 años
+
+
+// Destructuring de arrays con valores omitidos
+let [prim, ,terc] = [10, 20, 30];
+console.log(prim, terc); // 10 30
+
+
+// Rest operator con destructuring
+let [a, ...resto] = [1, 2, 3, 4];
+console.log(a); // 1
+console.log(resto); // [2, 3, 4]
+
+
+let { nombr, ...otros } = { nombr: "Gabi", edad: 25, pais: "Argentina"};
+console.log(otros); // {edad: 25, pais: 'Argentina'}
+
+
+
+
+
+/* ========================
+    Spread Operator
+===========================
+El spread operator o operador de propagacion en JavaScript -> ...
+es una sintaxis introducida en ES6 que permite descomponer en elementos iterables (como arrays, strings y objetos) en elementos individuales.
+
+Su principal funcion es copiar, combinar o expandir estructuras de datos de manera eficiente. Nos permite
+
+    - Manipulacion de arrays (copiar, concatenar)
+    - Combinar objetos (inmutabilidad, mezcla de propiedades)
+    - Paso de argumentos a funciones (reemplazo de apply())
+*/
+
+console.log("SPREAD OPERATOR");
+
+// Copia superficial: No es una referencia, los cambios en copia no afectan a original
+let original = [1, 2, 3];
+let copia = [...original];
+console.log(copia); // [1, 2, 3]
+
+
+// Concatenar arrays: Mucho mas eficiente que concat(), mejor rendimiento en motores modernos
+let arr1 = [1, 2];
+let arr2 = [3, 4];
+
+let combinado = [...arr1, ...arr2]; 
+console.log(combinado); // [1, 2, 3, 4]
+
+
+// Convierte strings en arrays sin usar split()
+let string = "Holis";
+let caracteres = [...string];
+console.log(caracteres); // ['H', 'o', 'l', 'i', 's']
+
+
+// Combinacion de objetos
+let defaults = { tema: "oscuro", fontSize: 14 };
+let configUser = { fontSize: 18 };
+let configFinal = {...defaults, ...configUser};
+console.log(configFinal); // {tema: 'oscuro', fontSize: 18}
+
+
+
+// Spread operator en funciones, pasando argumentos desde un array
+function sum (a, b, c, d) { return a + b + c + d};
+let numsRandom = [1, 2, 3, 4];
+console.log(sum(...numsRandom));
+
+
+
+// Recogemos argumentos restantes (rest parameters)
+function logArgs(first, ...rest) {
+    console.log(first); // a
+    console.log(rest); // b c
+}
+
+logArgs("a", "b", "c");
+
+
+
+
+
+
+
+/*======================
+    Funciones anidadas
+========================
+Son simplemente funciones definidas dentro de otras funciones.
+Es decir, una funcion interna que vive en el scope de una funcion externa
+
+Una funcion anidada es una funcion que:
+    - Se declara dentro de otra funcion
+    - Tiene acceso a todas las variables y parametros de su funcion externa
+    - Puede ser utilizada para organizar mejor el codigo, modularizar logica o crear closures
+
+
+Ejemplo basico de funcion anidada
+
+    - construirMensaje() esta anidada dentro de saludar()
+    - Tiene acceso a nombre, aunque esa variable no esta definida dentro de ella
+    - Esto es posible gracias al scope lexico de JavaScript
+
+
+Consideraciones:
+    - Las funciones anidadas no estan disponibles fuera del scope donde se definen
+    - Demasiadas funciones anidadas pueden dificultar la legibilidad si no estan bien organizadas
+
+*/
+function saludar(nombre) {
+
+    function construirMensaje() {
+        return `Hola ${nombre}`;
+    }
+
+    return construirMensaje();
+}
+
+console.log(saludar("Emiliano"));
+
+// Alcance de funciones anidadas: Heredan el entorno lexico (lexical scope) de la funcion que las contiene. Pueden acceder a las variables de la funcion externa pero no al reves
+
+function externa() {
+    let mensaje = "Hola desde fuera";
+
+    function interna() {
+        console.log(mensaje);
+    }
+
+    interna();
+}
+
+externa(); // Hola desde fuera
+
+
+
+// Ejemplo de procesamiento de texto
+// 1. Organizacion de codigo: En vez de escribir una gran funcion, se puedne definir sub-funciones internas para modularizar la logica
+function procesarTexto(texto) {
+
+    function limpiar(t) {
+        return t.trim().toLowerCase();
+    }
+
+    function contarPalabras(t) {
+        return t.split(/\s+/).length; // este regex trata todos los espacios como 1 solo espacio
+    }
+
+    let limpio = limpiar(texto);
+
+    return contarPalabras(limpio);
+}
+
+console.log("Numero palabras:");
+console.log(procesarTexto(" Holiiiii        QUE ONDI los pibardos de la 334          "));
+
+
+/*====================
+    Closures
+======================
+Una closure es una funcion que recuerda el entorno (scope) en el que fue creada, incluso despues de que ese entorno haya finalizado su ejecucion
+
+Esto significa que una funcion interna puede acceder a las variables de su funcion externa incluso despues de que esta haya terminado de ejecutarse
+
+Cada vez que creamos una funcion dentro de otra funcion, se crea una closure. La funcion interna captura las variables de su entorno externo y mantiene una referencia a ellas, no una copia
+*/
+
+console.log("CLOSURES");
+
+function crearContador() {
+    let contador = 0;
+
+    return function() {
+        contador++;
+        return contador;
+    }
+}
+
+let contar = crearContador();
+
+console.log(contar()); // 1
+console.log(contar()); // 2
+console.log(contar()); // 3
+console.log(contar()); // 4
+console.log(contar()); // 5
+
+/* Que pasa aca?
+
+- crearContador() retorna una funcion interna anonima
+
+- Esta funcion recuerda la variable contador, aunque crearContador() ya termino su ejecucion
+
+- Cada vez que llamamos a contar(), estamos invocando la misma closure que mantiene su propio estado interno
+
+
+Por que son utiles las closures?
+
+    - Permiten recordar valores sin usar variables globales
+    - Crear funciones privadas
+    - Hacer el codigo mas limpio y modular*/
+
+
+
+
+
 /* =======================
     Callback Hell
 ==========================
@@ -295,6 +802,7 @@ Ventajas de los callbacks
 
 Problemas comunes: Callback Hell
 
+- Referencia del hadouken que pasa con el callback hell -> https://blog.da2k.com.br/uploads/2015/03/hadouken.jpg
 - Un callback hell ocurre cuando tenemos muchas funciones anidadas dentro de otras, especialmente con tareas asincronicas (leer archivos, esperar respuestas del servidor, etc)
 
 Esto hace que el codigo sea:
@@ -365,12 +873,48 @@ async function ejecutarTareas() {
     } catch(error) {
         console.error(error); 
     }
+} */
+
+
+///////////////
+// Promesas //
+
+// Hacemos una solicitud a esta URL para traer todo el choclo de datos
+fetch("https://jsonplaceholder.typicode.com/users")
+
+    // Convertimos el texto plano en JSON en objetos JS
+    .then(res => res.json())
+
+    // Una vez que tenemos procesados nuestros datos, ahora como objetos JS, los mostramos
+    .then(data => console.table(data))
+
+    .catch(error => console.error(error));
+
+
+//////////////////
+// Async/Await //
+
+async function obtenerDatos() {
+    try {
+
+        // Hacemos una solicitud a esta URL para traer todo el choclo de datos
+        // Con await, esperamos a recibir todo el choclamen JSON
+        const res = await fetch("https://jsonplaceholder.typicode.com/posts")
+
+        // Convertimos el texto plano en JSON en objetos JS
+        const data = await res.json();
+
+        console.table(data);
+
+    } catch(error) {
+        console.error(error);
+    }
 }
-*/
+
+obtenerDatos();
 
 
-
-// TODO Comparacion Callbacks y HOF
+// TODO ver Web APIs
 ```
 
 ---
