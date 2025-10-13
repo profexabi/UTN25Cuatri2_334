@@ -882,7 +882,49 @@ async function obtenerDatos() {
     }
 }
 
-obtenerDatos();
+// obtenerDatos();
 
 
-// TODO ver Web APIs
+
+
+/*=========================
+    Web APIs
+===========================
+
+- API (Aplication Programming Interface) o Interfaz de Programacion de Aplicaciones
+
+- Una API es un conjunto de funciones y herramientas que podemos usar para interactuar con algo, sea el navegador, el servidor o una libreria
+
+Una Web API
+En el contexto del navegador (Firefox, Chrome, etc), una Web API es una funcion o conjunto de funciones que el navegador nos proporciona para que las usemos con JavaScript
+
+JavaScript como lenguaje de programacion es muy basico. Pero cuando se ejecuta en un navegador, puede acceder a funcionalidades especiales que el navegador le proporciona:
+
+    - Manipular el DOM (document.getElementById)
+    - Temporizadores (setTimeout a setInterval)
+    - Hacer peticiones HTTP (fetch)
+    - Trabajar con audio, video, GPS, etc
+
+Por que decimos que fetch es una API?
+- fetch no es parte del lenguaje JavaScript puro
+- Es una funcion que el navegador le da a JavaScript para que pueda hacer peticiones a servidores web
+- Por eso decimos que es una Web API que el navegador expone
+
+
+- JavaScript es el lenguaje
+- Las Web APIs son funciones extra que el navegador le presta a JavaScript para hacer cosas utiles
+- JavaScript usa estas APIs pero no son parte del lenguaje en si, las usa pero no las define
+
+
+Resumen:
+- API:      Conjunto de funciones para interactuar con algo
+- Web API:  Funciones que el navegador le ofrece a JavaScript
+- fetch:    Web API para hacer peticiones HTTP
+- setTimeout: Web API para ejecutar codigo con demora
+- JavaScript: Usa Web APIs pero no las define (las define el navegador)
+*/
+
+
+
+
+

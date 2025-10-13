@@ -21,6 +21,121 @@
 
 ---
 
+
+# Guia JavaScript
+
+## JavaScript VIII / JSON, asincronia, promesas, fetch, async/await y try/catch
+- [Clase 13/10/25](youtube.com)
+
+## EXTRA, que es una API Rest?
+
+#### 1. Pensemos en una pagina HTML, CSS y JS donde tengo 4 pestañas
+
+- Consultar productos -> `consultar.html`
+- Crear productos -> `crear.html`
+- Actualizar productos -> `actualizar.html`
+- Eliminar productos -> `eliminar.html`
+    
+#### 2. Ahora accedemos a la pagina consultar.html
+
+Internamente, JavaScript va a hacer la siguiente solicitud GET (una peticion a una URL)
+
+```js
+// Tomemos como referencia la siguiente peticion fetch
+// Hacemos una solicitud a esta URL para traer todo el choclo de datos
+fetch("https://jsonplaceholder.typicode.com/users")
+
+    // Convertimos el texto plano en JSON en objetos JS
+    .then(res => res.json())
+
+    // Una vez que tenemos procesados nuestros datos, ahora como objetos JS, los mostramos
+    .then(data =>  {
+        console.table(data)
+        // innerHTML, etc
+    })
+
+    .catch(error => console.error(error));
+```
+
+#### 3. Por que podemos acceder a este array de objetos de usuarios desde una URL?
+
+Porque desde el backend, usando Node.js y su framework Express.js, que utilizan el lenguaje de programacion JavaScript. **Nosotros creamos una API Rest**
+
+*Que significa crear una API Rest?*
+Significa crear la funcionalidad para permitir consultar, crear, modificar y eliminar recursos a traves de una URL. Es decir, le damos a nuestra pagina web, la posibilidad de realizar acciones con una URL para interactuar con la Base de Datos.
+
+Para esto, instalamos desde Node.js, el [framework Express.js para crear servidores web](https://www.npmjs.com/package/express)
+
+En Express.js, tenemos el siguiente codigo
+
+```js
+import express from "express"; // Despues de instalar, importamos el framework Express
+
+const app = express(); // Creamos una variable app, instancia de la aplicacion Express, nos va a permitir usar todos los metodos que trae Express
+
+
+// Creamos un endpoint (url), un punto de salida de informacion
+// http://localhost:3000/users
+
+// Enpoint para mostrar todos los usuarios (esta es la URL y las acciones que hace cuando usamos fetch desde el navegador)
+app.get("/users",  async (req, res) => {
+    try {
+
+        // Una vez, escuchada una solicitud get a nuestra url http://localhost:3000/users, creamos esta sentencia SQL
+        const [rows] = await connection.query("SELECT * FROM users");
+
+        // Ahora que guardamos los resultados de esta peticion a la Base de Datos, se la devolvemos al cliente (al navegador que hizo esta peticion fetch) en formato JSON
+        res.status(200).json({
+            resultado: rows;
+        })
+
+    } catch (error) {
+        console.error("Error obteniendo usuarios", error.message);
+
+        res.status(500).json({
+            error: "Error interno al obtener usuarios"
+        });
+    }
+});
+
+
+
+// Endpoint para crear un producto (esta va a ser la URL con la que, especificando una solicitud POST, vamos a crear un nuevo producto)
+app.post("/products", async (req, res) => {
+    try {
+
+        let { categoria, ruta_img, nombre, precio } = req.body; // Recogemos esta informacion del formulario HTML
+
+        // Enviamos a la BBDD esta consulta para crear un nuevo producto
+        let [rows] = await connection.query(`
+            INSERT INTO PRODUCTS (categoria, ruta_img, nombre, precio) 
+            VALUES (${categoria}, ${ruta_img}, ${nombre}, ${precio})`);
+
+        // Le damos una respuesta positiva al cliente
+        res.status(201).json({
+            mensaje: "Producto creado con exito"
+        });
+
+
+    } catch(error) {
+        console.error("Error creando productos", error.message);
+
+        res.status(500).json({
+            error: "Error interno al crear usuarios"
+        });
+    }
+});
+
+
+app.listen(3000, () => {
+    console.log(`Servidor corriendo en el puerto 3000`);
+})
+```
+
+
+
+---
+
 ## JavaScript VII / High order functions, destructuring, spread operator, closures, funciones anidadas, callbacks, web apis
 
 - [Clase grabada JS VII parte 1](https://youtu.be/3-TLK2UpBas)
@@ -2992,10 +3107,3 @@ console.log(g);
 g--;
 console.log(g);
 ```
-
----
-
-
-# Guia JavaScript
-
-## JavaScript VIII / JSON, asincronia, promesas, fetch, async/await y try/catch
