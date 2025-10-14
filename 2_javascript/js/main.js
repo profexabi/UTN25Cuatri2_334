@@ -311,3 +311,100 @@ async function cargarTodo() {
 */
 
 // TO DO, ejercicio sugerido, completen esto, encadenando las funciones asincronas obtenerUsuarios y obtenerPosts y unifiquenlas en esta llamada de Promise.all
+
+
+
+/*================
+    try/catch
+==================
+
+try ... catch es una estructura de control utilizada para capturar y manejar errores que ocurren durante la ejecucion de bloques de codigo.
+
+Esta tecnica forma parte del manejo de excepciones en JavaScript
+
+Su objetivo es evitar que errores inesperados detengan la ejecucion del programa y en su lugar, manejar dichos errores de forma controlada.
+
+
+Sintaxis
+
+    try {
+        // Bloque de codigo que puede lanzar errores
+
+    } catch(error) {
+        // Codigo para manejar el error 
+
+    } finally {
+        // Codigo que se ejecuta siempre con o sin error 
+    }
+
+
+Que errores puede capturar try...catch? captura errores en tiempo de ejecicion (runtime) como:
+
+    - Acceso a variables no definidas
+    - Llamadas a funciones inexistentes
+    - Errores lanzados con throw
+    - Problemas en funciones como JSON.parse()
+    - NO captura errores de sintaxis, porque estos impiden que el codigo siquiera se ejecute
+
+
+Ojo con usar try...catch en exceso
+
+    - Puede ocultar errores reales si no se maneja correctamente
+    - Tiene costo de rendimiento, especialmente en bucles
+    - Es mejor usarlo en secciones donde hay RIESGO REAL DE ERROR (I/O, parsing, red, etc)
+
+
+Buenas prácticas del try...catch
+
+    - No atrapemos errores que no podemos manejar
+    - Usemos try..catch donde esperamos errores (parseo de datos, llamadas a APIs)
+    - Usemos finally para cerrar recursos, limpiar o terminar tareas (conexiones, indicadores de carga, etc)
+    - Siempre proporcionemos informacion util en el error (err.message)
+
+
+En resumen
+
+    - try: Ejecuta codigo que puede lanzar errores
+
+    - catch: Captura y maneja el error
+    
+    - finally: Codigo que se ejecuta siempre, con o sin error
+
+    - throw: Lanza errores manualmente
+
+    - error: Objeto con informacion del error
+
+    - Uso ideal: I/O, llamadas a red, parsing, validacion, async/await
+*/
+
+try {
+
+    let resultado = 10 / 0;
+
+    // Este valor Infinity representa el infinito matemático y es mayor que cualquier número
+    console.log(resultado); // Infinity
+
+    // Podemos lanzar nuestros propios errores con throw, util para validaciones o control de flujo
+
+    throw new Error("Error personalizado, no se puede dividir entre 0"); // Estamos grabando este mensaje en el message del objeto Error
+    
+} catch(e) {
+    console.error("Ocurrio un error:", e.message);
+
+} finally { // Finally aca esta simplemente para que veamos que esto siempre se ejecuta, haya errores o no
+    console.log("Esto se ejecuta siempre");
+}
+
+/* Como funciona internamente?
+
+    1. El bloque try se ejecuta normalmente
+
+    2. Si ocurre un error dentro del try, se DETIENE INMEDIATAMENTE la ejecucion y pasa al bloque catch
+
+    3. El objeto de error (por convencion llamado error, err, e) contiene informacion como
+        
+        .name:      tipo de error (TypeError, ReferenceError, etc)
+        .message:   mensaje descriptivo
+
+    4. El bloque finally, si existe (es opcional), siempre se ejecuta, ocurra o no un error
+*/
