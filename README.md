@@ -21,11 +21,22 @@
 
 ---
 
+### Notas
+
+- Terminar asyc/await en Js VIII
+- Saltar a ver Node.js
+
+---
+
 
 # Guia JavaScript
 
 ## JavaScript VIII / JSON, asincronia, promesas, fetch, async/await y try/catch
-- [Clase 13/10/25](youtube.com)
+- [Clase 13/10/25](https://youtu.be/_C7BRSO93gw)
+
+```js
+
+```
 
 ## EXTRA, que es una API Rest?
 
@@ -46,7 +57,7 @@ Internamente, JavaScript va a hacer la siguiente solicitud GET (una peticion a u
 fetch("https://jsonplaceholder.typicode.com/users")
 
     // Convertimos el texto plano en JSON en objetos JS
-    .then(res => res.json())
+    .then(res => res.json()) // 1. Esta peticion HTTP se resuelve con una Response (respuesta del servidor)
 
     // Una vez que tenemos procesados nuestros datos, ahora como objetos JS, los mostramos
     .then(data =>  {
@@ -54,7 +65,7 @@ fetch("https://jsonplaceholder.typicode.com/users")
         // innerHTML, etc
     })
 
-    .catch(error => console.error(error));
+    .catch(error => console.error(error)); // 2. O se rechaza si hay un error de red
 ```
 
 #### 3. Por que podemos acceder a este array de objetos de usuarios desde una URL?
@@ -1026,10 +1037,122 @@ async function obtenerDatos() {
     }
 }
 
-obtenerDatos();
+// obtenerDatos();
 
 
-// TODO ver Web APIs
+
+
+/*=========================
+    Web APIs
+===========================
+
+- API (Aplication Programming Interface) o Interfaz de Programacion de Aplicaciones
+
+- Una API es un conjunto de funciones y herramientas que podemos usar para interactuar con algo, sea el navegador, el servidor o una libreria
+
+Una Web API
+En el contexto del navegador (Firefox, Chrome, etc), una Web API es una funcion o conjunto de funciones que el navegador nos proporciona para que las usemos con JavaScript
+
+JavaScript como lenguaje de programacion es muy basico. Pero cuando se ejecuta en un navegador, puede acceder a funcionalidades especiales que el navegador le proporciona:
+
+    - Manipular el DOM (document.getElementById)
+    - Temporizadores (setTimeout a setInterval)
+    - Hacer peticiones HTTP (fetch)
+    - Trabajar con audio, video, GPS, etc
+
+Por que decimos que fetch es una API?
+- fetch no es parte del lenguaje JavaScript puro
+- Es una funcion que el navegador le da a JavaScript para que pueda hacer peticiones a servidores web
+- Por eso decimos que es una Web API que el navegador expone
+
+
+- JavaScript es el lenguaje
+- Las Web APIs son funciones extra que el navegador le presta a JavaScript para hacer cosas utiles
+- JavaScript usa estas APIs pero no son parte del lenguaje en si, las usa pero no las define
+
+
+Resumen:
+- API:      Conjunto de funciones para interactuar con algo
+- Web API:  Funciones que el navegador le ofrece a JavaScript
+- fetch:    Web API para hacer peticiones HTTP
+- setTimeout: Web API para ejecutar codigo con demora
+- JavaScript: Usa Web APIs pero no las define (las define el navegador)
+
+
+Las Web APIs son herramientas que el navegador le da a JavaScript para interactuar con el entorno: HTML, red, audio, video, dispositivos, almacenamiento, etc
+
+Tipos de Web APIs comunes
+
+1. APIs del DOM (Document Object Model)
+- Permiten acceder y modificar el HTML y CSS de la pagina
+- Manipulacion de elementos, eventos, clases, estilos,etc
+
+    - document.querySelector()
+    - document.createElement()
+    - document.addEventListener()
+    - classList.add()
+
+
+2. APIs de Red
+- Permiten comunicarnos con servidores o cargar recursos
+- Peticiones HTTP, chats, notificaciones en tiempo real
+
+    - fetch() -> Para realizar solicitudes HTTP
+    - XMLHttpRequest -> Version mas antigua del fetch
+    - WebSocket -> Comunicacion en tiempo real (chats)
+    - EventSource -> Eventos Server-Sent (actualizaciones en tiempo real)
+
+
+3. APIs de almacenamiento
+- Guardar informacion en el navegador
+- Guardar preferencias, datos de sesion, apps sin conexion, ble
+
+    - localStorage()
+    - sessionStorage()
+    - Cookies (mediante document.cookie)
+    - IndexedDB*
+
+    * Qué es IndexedDB
+    https://es.javascript.info/indexeddb
+
+    IndexedDB es una API de JavaScript que permite el almacenamiento de grandes cantidades de datos estructurados en el navegador del usuario, funcionando como una base de datos NoSQL orientada a objetos  A diferencia de localStorage, que está limitado a pequeñas cantidades de datos, IndexedDB está diseñado para manejar volúmenes significativos de información, incluyendo archivos y blobs, y permite búsquedas de alto rendimiento mediante índices  Es una tecnología transaccional, lo que garantiza la integridad y consistencia de los datos durante operaciones como inserciones, actualizaciones y eliminaciones  Además, sigue la política de mismo origen, lo que significa que solo las páginas web del mismo dominio pueden acceder a los datos almacenados en una base de datos específica 
+
+
+4. Timers o temporizadores
+- Permiten ejecutar funciones luego de un cierto tiempo
+- Retrasos, animaciones, poling
+
+    - setTimeout()
+    - setInterval()
+    - clearTimeout() y clearInterval()
+
+
+5. APIs de Dispositivos y Multimedia
+- Interaccion con hardware o medios
+- Apps, mobiles, camara, permisos, grabaciones, notificaciones
+
+    - navigator.geolocation -> GPS
+    - MediaDevices.getUserMedia() -> Microfono y camara
+    - Notification -> Notificaciones del sistema
+    - Battery API, Clipboard API -> Para interactuar con la bateria, con el sistema de copiar-pegar
+
+
+6. APIs de Interfaz Grafica
+- Controlan animaciones, graficos y visualizacion
+- Juegos, visualizaciones, graficos dinamicos, etc
+
+    - Canvas API
+    - WebGL -> https://es.wikipedia.org/wiki/WebGL
+    - Fullscreen API
+    - Screen Orientation API
+
+
+En resumen:
+
+- JavaScript puro es simple
+- Pero el navegador le da superpoderes con las Web APIs
+- Estas APIs permiten que JavaScript haga cosas reales, como hablar con servidores, manipular la pagina, guardar datos, usar la camara, etc
+*/
 ```
 
 ---
