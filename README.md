@@ -188,7 +188,6 @@ Solamente vamos a crear usuarios admins! los clientes no se loguean, solamente s
 
 ---
 
-
 ## Paso 3
 Ya con la API Rest andando 
 
@@ -203,6 +202,13 @@ Ya con la API Rest andando
 
 ---
 
+
+## Resumen conceptual TP
+![Dibujo TP Backend](tpBackend.png)
+
+
+---
+
 # Guia Node.js
 
 ## Introducción al backend
@@ -211,6 +217,20 @@ El desarrollo backend se refiere a la parte invisible de una aplicacion o sitio 
 El frontend se encarga de lo que el usuario ve e interactua, como botones, formularios, textos. Es decir, es la parte que se encarga del desarrollo de las interfaces de usuario
 
 El backend se encarga de procesar solicitudes, manejar bases de datos. Todo lo que hay detrás y que le proporciona información a la parte visible
+
+### Componentes principales del backend:
+
+1. **Servidores**: Procesos que escuchan peticiones y devuelven respuestas
+
+2. **Bases de datos**: Almacenamiento de informacion
+
+3. **APIs**: Interfaces de comunicacion (puentes para conectar una app con otra)
+
+4. **Autenticacion**: Gestionar usuarios y permisos
+
+5. **Logica de negocio**: Reglas y procesos de la aplicacion
+
+---
 
 #### Para qué sirve?
 
@@ -225,6 +245,12 @@ El backend se encarga de procesar solicitudes, manejar bases de datos. Todo lo q
 
 ## Introduccion a Node.js
 Node.js es un entorno de ejecuion que permite usar JavaScript fuera del navegador. Gracias a esto, podemos usar JavaScript para desarrollar aplicaciones del lado del servidor.
+
+### Ventajas de Node.js
+- JavaScript en el frontend y en el backend (mismo lenguaje)
+- No bloqueante y asicrono
+- Ecosistema enorme con `npm` (miles de paquetes disponibles)
+- Alto rendimiento (gracias al event loop)
 
 #### NPM
 Es una amplia biblioteca de paquetes y herramientas para usar con Node.js
@@ -246,28 +272,21 @@ En lugar de tener todo el codigo en u archivo gigante, vamos a dividirlo en dist
 
 **Node.js tiene varios modulos integrados que ya vienen listos para usar y nos permiten hacer cosas como trabajar con el sistema de archivos, manejar rutas o realizar tareas en red**.
 
-Explicacion en `index.js`
 
-```js
-/*===========================
-    OS (Operative System)
-=============================
-Este modulo nos permite obtener informacion del sistema operativo en el que estamos ejecutando Node.js.
+---
 
-Vamos a poder obtener la cantidad de memoria libre disponible o el tipo de sistema operativo
-*/
+## [Instalando Express.js](https://www.npmjs.com/package/express)
 
-// Importamos este modulo integrado en Node.js
-const os = require("os");
-
-let memoriaLibre = os.freemem();
-let tipoSistemaOperativo = os.type();
-
-console.log("Memoria disponible: ", memoriaLibre);
-console.log("Tipo de sistema operativo: ", tipoSistemaOperativo);
-console.log(os.cpus());
+```sh
+npm i express
 ```
 
+`Express.js` es un framework web para Node.js que nos permite construir servidores y aplicaciones web de forma rapida y sencilla
+
+- Es minimalista
+- Nos permite crear rutas
+- Manejar peticiones HTTP
+- Aplicar middlewares y mucho mas
 
 ---
 

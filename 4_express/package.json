@@ -1,0 +1,20 @@
+{
+  "name": "4_express",
+  "version": "1.0.0",
+  "description": "Resolucion del TP Integrador",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "node",
+    "express",
+    "servidor"
+  ],
+  "author": "Cosme Fulanito <cosme@fulanito.com>",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^5.1.0"
+  }
+}
