@@ -14,8 +14,191 @@
 
 ---
 
-### Notas
-- Vimos solo modulo "os" -> continuar desde ahi
+## Guia Git
+
+Vamos a trabajar con la consola de la terminal de VSCodium o VSCode -> `Ctrl + ñ` o `Ctrl + j`
+Pueden probar a cambiar en el desplegable de la terminal a `Git Bash`
+
+### 1. Configuracion inicial de git
+
+Definimos nuestro nombre de usuario y nuestro email
+Para limpiar la terminal escribimos `clear` o `Ctrl + l`
+
+```sh
+git config --global user.name "CosmeFulanito"
+git config --global user.email "cosme@fulanito.com"
+
+# Para chequear nuestros datos de git usaremos el comando
+git config --list
+```
+
+### 2. Clonamos nuestro reposistorio
+```sh
+git clone https://github.com/profexabi/repositorioPruebas.git
+
+# Navegamos hasta nuestro nuevo repositori
+cd repositorioPruebas
+
+# Podremos listar nuestro remotos con
+git remote -v
+
+# Y cambiar el nombre a algun remoto con 
+git remote rename origin github
+```
+
+### 3. Comandos fundamentales 
+
+Por defecto, trabajamos en la rama principal `main`
+
+```sh
+# Ver el estado de los archivos
+git status
+
+# Guardamos los cambios totales
+git add .
+
+# O guardar solo un cambio con
+git add nombreArchivo
+
+
+# Una vez guardados estos cambios, los registramos (los commiteamos)
+git commit -m "Engadidos archivos index.html e css/"
+```
+
+### 4. Trabajando con ramas / branches (espacios de trabajo)
+
+#### Convenciones de nombres para ramas
+- feature/nueva-funcionalidad
+- fix/correccion-error
+- docs/actualizacion-documentacion
+- test/agregar-pruebas
+
+
+#### Un `Pull Request o PR`
+Es una solicitud para fusionar cambios de una rama (espacio de trabajo) a otra, permitiendo:
+
+    - Revision de codigo por otro compas
+    - Discusion de implementacion
+    - Integracion controlada
+
+
+```sh
+# Ver ramas existentes
+git branch
+
+# Crear nueva rama
+git branch nombreRama # git branch nombre-descripcion
+
+# Cambiar a una rama
+git checkout nombreRama
+
+# Todo junto crear y cambiar a una rama
+git checkout -b nombreRama
+
+# Trabajamos en esa rama y al modificar algo podremos obtener info
+git status # para ver cambios y en que rama estamos
+git diff # para ver que se agrego y que se elimino
+
+# Con estos cambios, guardo, registro y pusheo a mi rama
+git add .
+git commit -m "nuevos cambios en mi rama"
+git push origin nombreRama
+```
+
+- **Siempre actualicemos los cambios!!**
+```sh
+# Volvemos a la rama principal
+git checkout main
+git pull # Para traer los cambios que recien mergeamos (fusionamos)
+```
+
+- **Al terminar de trabajar en una rama, idealmente eliminemosla**
+```sh
+# Eliminar rama local
+git branch -d nombreRama
+
+# Fusionar ramas
+git merge nombreRama
+```
+
+### 5. Registrando nuevas versiones de la app con `git tag`
+
+
+### 6. Apartando temporalmente los conflictos con `git stash` y `git pop`
+
+
+---
+
+
+## Notas TP Integrador
+
+## Paso 1
+### Proyecto frontend
+- *Reutilizamos el 1er parcial pero consumiendo nuestra propia API Rest*
+
+- App front donde usuarios compran 2 tipos de producto
+
+- Al finalizar la compra, creamos un boton que diga "hacer compra" o "imprimir ticket"
+    - imprimir 1 ticket con la libreria Js PDF
+    - registramos 1 venta (POST para registrar una venta)
+
+#### **Explicacion del cliente**
+
+1. Pantalla de bienvenida donde se pide insertar nombre (y guardarlo en la sesion)
+
+2. Pantalla productos. 
+    - Visualizar tarjetas de productos -> datos, img y boton agregar a carrito
+    - Esta pantalla productos se ve gracias a que hacemos una peticion fetch a nuestra API Rest, [ejemplo](https://jsonplaceholder.typicode.com/users)
+
+3. Pantalla carrito. Listado de productos añadidos al carrito. Debe permitir agregar o quitar distintas cantidades
+
+4. Pantalla ticket. Confirmado el carrito (boton hacer compra o imprimir ticket)
+    - Imprimimos un ticket en pdf con [JS PDF](https://raw.githack.com/MrRio/jsPDF/master/docs/index.html)
+    - Se produce un POST a la tabla ventas (hora, cantidad de productos, precio total, etc)
+
+---
+
+## Paso 2
+
+#### BBDD MySQL con las respectivas tablas 
+
+### Proyecto backend
+- Una API Rest que va a estar conectada a la BBDD y va a devolver datos
+
+- Nuevas vistas HTML (EJS) -> Es el propio servidor el que va a generar las vistas y el HTML
+- Esta vista va a ser el panel de administracion o "backoffice" que nos permitira gestionar productos y usuarios
+
+
+#### **Explicacion del servidor**
+Solamente vamos a crear usuarios admins! los clientes no se loguean, solamente se registra en el ticket y en la venta el nombre que pusieran en la pantalla de bienvenida
+
+1. *Pantalla login que debe permitir ingresar correo y password* -> Conveniente dejar este paso para cuando esten hechas las pantallas
+
+2. Con este login exitoso, pantalla dashboard que posee las siguientes vistas asi como el nav para redirigir a las pantallas de alta, baja y modificacion de productos y usuarios
+
+    2.1 Listado de productos que trae todo el choclo de productos como nuestro parcial -> **GET**
+
+    2.2. Pantalla para obtener productos/usuarios por su id -> **GET by id**
+
+    2.3. Pantalla alta producto para cargar un nuevo producto son con un formulario que permita cargar sus datos y su imagen en url  -> **POST**
+
+    2.4. Recicla el form de get by id -> Pantalla modificar producto para modificar los datos de un producto a partir de su ID -> **PUT**
+
+    2.5 Recicla el form de get by id -> Pantalla para eliminar producto -> **DELETE**
+
+---
+
+
+## Paso 3
+Ya con la API Rest andando 
+
+### 3.1 Login basico con EJS y [bcrypt](https://www.npmjs.com/package/bcrypt)
+
+### 3.2 Subida de archivos con Multer
+
+### 3.3 Descarga de excel con las ventas
+
+### 3.4 Paginacion
 
 
 ---
@@ -61,7 +244,7 @@ Despues de esto, podemos instalar paquetes y listarlos como dependencias de nues
 Los modulos son como bloques de construccion que permiten organizar y reutilizar el codigo de forma eficiente. 
 En lugar de tener todo el codigo en u archivo gigante, vamos a dividirlo en distintos archivos o modulos y luego importarlos en el lugar donde los necesitemos, para que nuestra aplicacion sea mas organizada, facil de entender, de mantener y de escalar.
 
-**Node.js tiene varios moduos integrados que ya vienen listos para usar y nos permiten hacer cosas como trabajar con el sistema de archivos, manejar rutas o realizar tareas en red**.
+**Node.js tiene varios modulos integrados que ya vienen listos para usar y nos permiten hacer cosas como trabajar con el sistema de archivos, manejar rutas o realizar tareas en red**.
 
 Explicacion en `index.js`
 

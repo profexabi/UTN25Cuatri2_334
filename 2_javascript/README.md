@@ -8,6 +8,12 @@
 
 ---
 
+### Notas clase
+
+- [Explicacion de arquitectura de software](https://es.wikipedia.org/wiki/Arquitectura_de_software)
+
+---
+
 ### Enlaces recomendados
 - [let vs const en JavaScript](https://stackoverflow.com/questions/41086633/in-javascript-why-should-i-usually-prefer-const-to-let)
 - [online gdb Emma](https://onlinegdb.com/jlYqu0DPFR)
