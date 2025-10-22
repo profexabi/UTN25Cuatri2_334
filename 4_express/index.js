@@ -6,10 +6,33 @@ const express = require("express");
 // Creamos una (instancia de) aplicacion de Express
 const app = express();
 
+
+/*===============
+    Rutas
+=================
+Nos permiten responder a peticiones HTTP (GET, POST, PUT y DELETE) desde diferentes URL
+
+Vamos a poder tener rutas para
+    - / Pagina princpal
+    - /productos
+    - /api/usuarios/:id
+*/
+
 // Definimos la ruta principal
 app.get("/", (req, res) => {
     res.send("Hola mundo desde Express.js");
 });
+
+// Ruta Sobre Mi
+app.get("/sobre-mi", (req, res) => {
+    res.send("Esta es la pagina Sobre Mi");
+});
+
+// Ruta Contacto
+app.get("/contacto", (req, res) => {
+    res.send("Contactame en cosme@fulanito.com");
+});
+
 
 // Escuchamos en el puerto 4000
 const puerto = 4000;

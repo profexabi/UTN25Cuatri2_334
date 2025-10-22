@@ -2,15 +2,20 @@
 
 # Node.js :scroll:
 
+### Videos clase
+
+- [Clase Node II 21/10/25](https://youtu.be/n1RsZiNaPd4)
+
+---
+
 ### Tareas
-1. [Video Protocolo HTTP y lenguaje HTML](https://www.youtube.com/watch?v=l6oF_RpBf64)
+1. [Protocolo HTTP y lenguaje HTML](https://www.youtube.com/watch?v=l6oF_RpBf64)
 2. [Playlist de web de Todocode](https://www.youtube.com/watch?v=lC6JOQLIgp0&list=PLQxX2eiEaqbxx6Ds5bd1F6LZJo7_OnZhV)
     - Arquitectura cliente servidor
     - Protoclo HTTP
     - Opcional, librerias y frameworks
     - Que es JSON
     - Que son las APIs
-
 
 ---
 
