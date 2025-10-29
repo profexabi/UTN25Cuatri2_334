@@ -96,7 +96,10 @@ export default connection;
 
 ---
 
-## Creamos nuestro primer endpoint
+## 3 / Creacion de endpoints
+
+### 3.1 Probando conexion a la BBDD con endpoint minimo
+
 - Creamos un servidor minimo de Express.js
 ```js
 // index.js
@@ -115,4 +118,40 @@ app.get("/", (req, res) => {
 app.listen(PORT, () => {
     console.log(`Servidor corriendo en el puerto ${PORT}`);
 });
+```
+
+- **Ahora vamos a crear nuestro primer endpoint para traer todos los productos**
+```js
+// Traer todos los productos
+app.get("/products", async (req, res) => {
+    try {
+        const sql = "SELECT * FROM productos";
+        const [rows] = await connection.query(sql);
+
+        res.status(200).json({
+            payload: rows
+        });
+    
+    } catch (error) {
+        console.error("Error obteniendo productos", error.message);
+        res.status(500).json({
+            message: "Error interno al obtener productos"
+        });
+    }
+
+});
+```
+
+### 3.2 Creamos la vista para conectar nuestra aplicacion del front para consumir estos datos que ahora le proporciona nuestro endpoint a traves de nuestra API Rest
+
+### 3.3 Setup de [CORS](https://www.npmjs.com/package/cors)
+- Para poder consumir nuestra API Rest desde el cliente, vamos a necesitar CORS
+```sh
+# Instalar CORS
+npm i cors
+```
+
+- En nuestro archivo principal `index.js`, vamos a usar el middleware CORS
+```js
+
 ```

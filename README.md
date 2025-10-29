@@ -10,9 +10,10 @@
 
 ### Tareas
 1. [Protocolo HTTP y lenguaje HTML](https://www.youtube.com/watch?v=l6oF_RpBf64)
+
 2. [Playlist de web de Todocode](https://www.youtube.com/watch?v=lC6JOQLIgp0&list=PLQxX2eiEaqbxx6Ds5bd1F6LZJo7_OnZhV)
     - Arquitectura cliente servidor
-    - Protoclo HTTP
+    - Protocolo HTTP
     - Opcional, librerias y frameworks
     - Que es JSON
     - Que son las APIs
