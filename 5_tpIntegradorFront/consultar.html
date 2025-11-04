@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TP Integrador front</title>
+    <link rel="stylesheet" href="css/styles.css">
+
+    <script defer src="js/main.js"></script>
+    <!-- Tema CSS
+    <link rel='stylesheet' href='https://cdn.jsdelivr.net/gh/kognise/water.css@latest/dist/dark.css'>
+     -->
+    <link rel="stylesheet" href="https://unpkg.com/sakura.css/css/sakura-vader.css" type="text/css">
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+     <header>
+        <nav>
+            <ul>
+                <a href="index.html">
+                    <li>Ver</li>
+                </a>
+                <a href="consultar.html">
+                    <li>Consultar id</li>
+                </a>
+                <a href="crear.html">
+                    <li>Crear</li>
+                </a>
+                <a href="modificar.html">
+                    <li>Modificar</li>
+                </a>
+                <a href="eliminar.html">
+                    <li>Eliminar</li>
+                </a>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <h1>Consultar producto por id</h1>
+        <hr>
+
+        <form id="getProduct-form">
+            <label for="idProd">Id del producto</label>
+            <input type="number" name="idProd" id="idProd" required>
+
+            <input type="submit" value="Consultar producto">
+        </form>
+
+        <div id="contenedor-productos">
+            <ul id="lista-productos"></ul>
+        </div>
+    </main>
+
+    <script>
+        let getProduct_form = document.getElementById("getProduct-form");
+        let listaProductos = document.getElementById("lista-productos");
+        let url = "http://localhost:3000/products";
+        
+
+        getProduct_form.addEventListener("submit", async (event) => {
+            event.preventDefault(); // Evitamos el envio por defecto del formulario
+
+            console.log("Formulario no enviado");
+            console.log(event.target); // Con event target accedemos al evento que disparo el addEventListener
+
+            // Vamos a guardar como objetos los valores del formulario HTML
+            let formData = new FormData(event.target);
+            console.log(formData); // FormData { idProd → "2" }
+            
+            // Vamos a transformar este objeto FormData en un objeto JavaScript
+            let data = Object.fromEntries(formData.entries());
+            console.log(data); // Object { idProd: "3" }
+            
+            let idProd = data.idProd;
+            console.log(idProd);
+            
+            try {
+                console.log(`Haciendo peticion GET a la url: ${url}/${idProd}`)
+                let respuesta = await fetch(`${url}/${idProd}`);
+
+                let datos = await respuesta.json();
+
+                console.log(datos); // {payload: Array(1), message: 'Producto encontrado'}
+                console.log(datos.payload); // [{…}]
+                console.log(datos.payload[0]); // {id: 1, nombre: 'La maquina de hacer pajaros - Peliculas', tipo: 'LP', precio: 10000, imagen: 'https://i.discogs.com/rKa1bYXYX2w5nIGDULFozlTjVbmM…y9SLTM1MDY2/NjctMTUwOTczNTA0/Ni01NzM4LmpwZWc.jpeg', …}
+
+                let producto = datos.payload[0];
+                console.table(producto);
+
+                let htmlProducto = `
+                    <li class="li-listados">
+                        <img src="${producto.imagen}" alt="${producto.nombre}">
+                        <p>Id: ${producto.id} / Nombre: ${producto.nombre} / <strong>Precio: ${producto.precio}</strong></p>
+                    </li>
+                `;
+
+                listaProductos.innerHTML = htmlProducto;
+                
+            } catch (error) {
+                console.log(error);
+            }
+            
+            /*==========================
+                    Que es FormData?
+            ============================
+            A diferencia de un objeto JavaScript común, FormData está diseñado específicamente para manejar datos de formularios, incluyendo archivos, 
+            y puede ser creado desde un formulario HTML al pasar el elemento form al constructor new FormData(form)
+
+            FormData es una interfaz nativa de JavaScript que permite crear un conjunto de pares clave-valor 
+            que representan los campos de un formulario HTML y sus respectivos valores.
+
+            Esta clase se utiliza principalmente para capturar y enviar datos de formularios, 
+            ya sea mediante métodos como fetch o XMLHttpRequest, 
+            y se encarga de formatear los datos correctamente como multipart/form-data, 
+            estableciendo automáticamente los encabezados necesarios para el envío
+            */
+            // let respuesta = await fetch("http://localhost:3000/products/${idProducto}");
+        });
+
+    </script>
+</body>
+</html>

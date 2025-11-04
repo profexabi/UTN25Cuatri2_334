@@ -1,3 +1,26 @@
+/*================
+    General
+================*/
+ul {
+    padding-left: 0;
+}
+
+li {
+    list-style-type: none;
+}
+
+
+/*================
+    Encabezado
+================*/
+nav ul {
+    display: flex;
+    justify-content: space-between;
+}
+
+/*================
+    main
+================*/
 #contenedor-productos {
     display: flex;
     flex-wrap: wrap;
@@ -12,8 +35,25 @@
     width: 300px;
     height: 300px;
     margin: 10px;
+    font-size: 12px;
+    text-align: center;
 }
 
 .card-producto img {
-    width: 150px;
+    width: 130px;
+}
+
+
+#lista-productos {
+    width: 100%
+}
+
+.li-listados {
+    font-size: 12px;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+}
+.li-listados img {
+    width: 60px;
 }

@@ -4,6 +4,7 @@
 
 ### Videos clase
 
+- [Clase Endpoint get by id + vista](https://youtu.be/3e1w8qf8_eU)
 - [Clase Node II 21/10/25](https://youtu.be/n1RsZiNaPd4)
 
 ---

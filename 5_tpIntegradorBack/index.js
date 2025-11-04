@@ -66,7 +66,8 @@ app.get("/products/:id", async (req, res) => {
         console.log(rows);
  
         res.status(200).json({
-            payload: rows
+            payload: rows,
+            message: "Producto encontrado"
         });
 
         /*
