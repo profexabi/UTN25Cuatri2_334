@@ -45,15 +45,33 @@ nav ul {
 
 
 #lista-productos {
-    width: 100%
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
 }
 
 .li-listados {
-    font-size: 12px;
+    font-size: 14px;
     display: flex;
     justify-content: space-evenly;
     align-items: center;
+    width: 70%;
 }
+
 .li-listados img {
     width: 60px;
+}
+
+.li-listados p, .li-listados img {
+    margin-bottom: 0;
+}
+
+.li-botonera {
+    width: 20%;
+    display: flex;
+    align-items: center;
+}
+
+#getProduct-form {
+    margin-bottom: 20px;
 }

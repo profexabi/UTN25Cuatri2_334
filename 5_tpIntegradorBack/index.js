@@ -26,7 +26,7 @@ app.get("/", (req, res) => {
 });
 
 
-// Traer todos los productos
+// GET -> Traer todos los productos
 app.get("/products", async (req, res) => {
 
     try {
@@ -123,6 +123,7 @@ app.get("/products/:id", async (req, res) => {
 */
 
 
+// POST -> Crear un nuevo producto
 app.post("/products", async (req, res) => {
 
     try {
@@ -153,6 +154,35 @@ app.post("/products", async (req, res) => {
 
         res.status(500).json({
             message: "Error interno del servidor",
+            error: error.message
+        })
+    }
+});
+
+
+// DELETE -> Eliminar un producto por su id
+app.delete("/products/:id", async (req, res) => {
+    try {
+        let { id } = req.params;
+
+        // Opcion 1: Borrado normal
+        let sql = "DELETE FROM productos WHERE id = ?";
+
+        // Opcion 2: Baja logica
+        //let sql = "UPDATE productos set active = 0 WHERE id = ?";
+
+        let [result] = await connection.query(sql, [id]);
+        console.log(result);
+
+        return res.status(200).json({
+            message: `Producto con id ${id} eliminado correctamente`
+        });
+
+    } catch(error) {
+        console.error("Error al eliminar un producto: ", error);
+
+        res.status(500).json({
+            message: `Error al eliminar un producto con id ${id}: `, error,
             error: error.message
         })
     }
