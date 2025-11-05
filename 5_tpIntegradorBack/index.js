@@ -57,12 +57,15 @@ app.get("/products/:id", async (req, res) => {
 
     try {
         // let id = req.params.id;
-        let { id } = req.params;
+        let { id } = req.params; // Aca extraemos el valor "2" de localhost:3000/products/2
 
         // Gracias al uso de los placeholders -> ? evitamos ataques de inyeccion SQL
-        let sql = "SELECT * FROM productos WHERE productos.id = ?";
+        //let sql = `SELECT * FROM productos WHERE productos.id = ${id}`; // Opcion 1. Consulta no segura
+        let sql = "SELECT * FROM productos WHERE productos.id = ?"; // Opcion 2, sentencia mas segura
 
+        //let [rows] = await connection.query(sql); // Aca introducimos la consulta 1 no segura
         let [rows] = await connection.query(sql, [id]); // Este id reemplazara el placeholder ?
+
         console.log(rows);
  
         res.status(200).json({
@@ -117,6 +120,41 @@ app.get("/products/:id", async (req, res) => {
     - GET: Seleccionar solamente los campos necesarios y devolver tambien un message junto al payload
     - GET by id: Meter optimizaciones
 */
+
+
+app.post("/products", async (req, res) => {
+
+    try {
+        /*  image: "johnnymelavo.com"
+            name: "Johnny Melavo"
+            price: "12"
+            type: "CD"
+        */
+
+        // TODO, recordar el middleware express.json()
+
+        // Gracias al destructuring, recogemos estos datos del body
+        let { image, name, price, type } = req.body;
+
+        let sql = `INSERT INTO products (imagen, nombre, precio, tipo) VALUES (?, ?, ?, ?)`;
+
+        let [rows] = await connection.query(sql, [image, name, price, type]);
+
+        // Codigo de estado 201 -> Created
+        res.status(201).json({
+            message: "Producto creado con exito"
+        });
+
+    } catch(error) {
+        console.log(error);
+
+        res.status(500).json({
+            message: "Error interno del servidor",
+            error: error.message
+        })
+    }
+});
+
 app.listen(PORT, () => {
     console.log(`Servidor corriendo en el puerto ${PORT}`);
 });

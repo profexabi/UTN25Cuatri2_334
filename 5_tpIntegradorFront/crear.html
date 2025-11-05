@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TP Integrador front</title>
+    <link rel="stylesheet" href="css/styles.css">
+
+    <script defer src="js/main.js"></script>
+    <!-- Tema CSS
+    <link rel='stylesheet' href='https://cdn.jsdelivr.net/gh/kognise/water.css@latest/dist/dark.css'>
+     -->
+    <link rel="stylesheet" href="https://unpkg.com/sakura.css/css/sakura-vader.css" type="text/css">
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+     <header>
+        <nav>
+            <ul>
+                <a href="index.html">
+                    <li>Ver</li>
+                </a>
+                <a href="consultar.html">
+                    <li>Consultar id</li>
+                </a>
+                <a href="crear.html">
+                    <li>Crear</li>
+                </a>
+                <a href="modificar.html">
+                    <li>Modificar</li>
+                </a>
+                <a href="eliminar.html">
+                    <li>Eliminar</li>
+                </a>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <h1>Crear producto</h1>
+        <hr>
+        <form id="altaProducts-form">
+
+            <label for="nameProd">Nombre</label>
+            <input type="text" name="name" id="nameProd" required>
+
+            <label for="imageProd">Url imagen</label>
+            <input type="text" name="image" id="imageProd" required>
+
+            <label for="typeProd">Categoria</label>
+            <select name="type" id="typeProd" required>
+                <option value="LP">LP</option>
+                <option value="CD">CD</option>
+            </select>
+
+            <label for="priceProd">Precio</label>
+            <input type="number" name="price" id="priceProd" required>
+
+            <br>
+            <input type="submit" value="Crear producto">
+        </form>
+
+        <div id="contenedor-productos"></div>
+    </main>
+
+    <script>
+        let contenedorProductos = document.getElementById("contenedor-productos");
+        let altaProductsForm = document.getElementById("altaProducts-form");
+
+        altaProductsForm.addEventListener("submit", (event) => {
+
+            event.preventDefault(); // Formulario no enviado por defecto
+
+            // Obtenemos los datos de este formulario a traves de un objeto FormData
+            let formData = new FormData(event.target);
+            console.log(formData); // FormData(4) { name → "Johnny Melavo", image → "johnnymelavo.com", type → "CD", price → "12" }
+
+            // Ahora creamos un objeto JS a partir de los datos de este objeto FormData
+            let data = Object.fromEntries(formData.entries());
+            console.log(data);
+
+        })
+    </script>
+</body>
+</html>

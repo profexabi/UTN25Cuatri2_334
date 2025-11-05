@@ -58,25 +58,30 @@
         
 
         getProduct_form.addEventListener("submit", async (event) => {
+
             event.preventDefault(); // Evitamos el envio por defecto del formulario
 
             console.log("Formulario no enviado");
             console.log(event.target); // Con event target accedemos al evento que disparo el addEventListener
-
+           
             // Vamos a guardar como objetos los valores del formulario HTML
             let formData = new FormData(event.target);
             console.log(formData); // FormData { idProd → "2" }
             
-            // Vamos a transformar este objeto FormData en un objeto JavaScript
+            // Vamos a transformar este objeto FormData en un objeto normal JavaScript
             let data = Object.fromEntries(formData.entries());
             console.log(data); // Object { idProd: "3" }
             
             let idProd = data.idProd;
-            console.log(idProd);
+            console.log(idProd); // 3
+
+            console.log(`Extraido valor numerico del formulario en la variable idProd, que vale ${idProd}`)
+            
             
             try {
                 console.log(`Haciendo peticion GET a la url: ${url}/${idProd}`)
-                let respuesta = await fetch(`${url}/${idProd}`);
+                //let respuesta = await fetch(`${url}/${idProd}`);
+                let respuesta = await fetch(`http://localhost:3000/products/${idProd}`);
 
                 let datos = await respuesta.json();
 
