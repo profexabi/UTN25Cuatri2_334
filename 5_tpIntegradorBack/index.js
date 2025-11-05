@@ -15,6 +15,7 @@ import cors from "cors";
     Middlewares
 ====================*/
 app.use(cors()); //Middleware CORS basico que permite todas las solicitudes
+app.use(express.json()); // Middleware que transforma el JSON de las peticiones POST a objetos JS
 
 
 /*==================
@@ -136,7 +137,9 @@ app.post("/products", async (req, res) => {
         // Gracias al destructuring, recogemos estos datos del body
         let { image, name, price, type } = req.body;
 
-        let sql = `INSERT INTO products (imagen, nombre, precio, tipo) VALUES (?, ?, ?, ?)`;
+        console.log(req.body);
+
+        let sql = `INSERT INTO productos (imagen, nombre, precio, tipo) VALUES (?, ?, ?, ?)`;
 
         let [rows] = await connection.query(sql, [image, name, price, type]);
 
@@ -154,6 +157,7 @@ app.post("/products", async (req, res) => {
         })
     }
 });
+
 
 app.listen(PORT, () => {
     console.log(`Servidor corriendo en el puerto ${PORT}`);
