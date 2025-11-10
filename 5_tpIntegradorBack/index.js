@@ -15,7 +15,15 @@ import cors from "cors";
     Middlewares
 ====================*/
 app.use(cors()); //Middleware CORS basico que permite todas las solicitudes
-app.use(express.json()); // Middleware que transforma el JSON de las peticiones POST a objetos JS
+app.use(express.json()); // Middleware que transforma el JSON de las peticiones POST y PUT a objetos JS
+
+// Middleware logger para mostrar por consola todas las peticiones a nuestro servidor
+app.use((req, res, next) => {
+    console.log(`[${new Date().toLocaleString()}] ${req.method} ${req.url}`);
+   
+    // Con next continuamos al siguiente middleware o a la respuesta
+    next();
+});
 
 
 /*==================
@@ -67,7 +75,7 @@ app.get("/products/:id", async (req, res) => {
         //let [rows] = await connection.query(sql); // Aca introducimos la consulta 1 no segura
         let [rows] = await connection.query(sql, [id]); // Este id reemplazara el placeholder ?
 
-        console.log(rows);
+        //console.log(rows);
  
         res.status(200).json({
             payload: rows,
@@ -133,8 +141,6 @@ app.post("/products", async (req, res) => {
             type: "CD"
         */
 
-        // TODO, recordar el middleware express.json()
-
         // Gracias al destructuring, recogemos estos datos del body
         let { image, name, price, type } = req.body;
 
@@ -156,6 +162,35 @@ app.post("/products", async (req, res) => {
             message: "Error interno del servidor",
             error: error.message
         })
+    }
+});
+
+// TO DO, Optimizacion II -> actualizar solo los campos que hayan cambiado
+// UPDATE -> Actualizar un producto por su id
+app.put("/products", async (req, res) => {
+    try {
+        let { id, name, image, type, price, active } = req.body;
+
+        let sql = `
+            UPDATE productos
+            SET nombre = ?, imagen = ?, tipo = ?, precio = ?, activo = ?
+            WHERE id = ?
+        `;
+
+        let [result] = await connection.query(sql, [name, image, type, price, active, id]);
+
+        console.log(result);
+
+        res.status(200).json({
+            message: `Producto con id ${id} actualizado correctamente`
+        });
+
+    } catch (error) {
+        console.error("Error al actualizar productos", error);
+
+        res.status(500).json({
+            message: "Error interno del servidor", error
+        });
     }
 });
 
@@ -187,6 +222,9 @@ app.delete("/products/:id", async (req, res) => {
         })
     }
 });
+
+
+// TO DO, optimizar endpoints y mostrar mensaje de error
 
 
 app.listen(PORT, () => {

@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TP Integrador front</title>
+    <link rel="stylesheet" href="css/styles.css">
+
+    <script defer src="js/main.js"></script>
+    <!-- Tema CSS
+    <link rel='stylesheet' href='https://cdn.jsdelivr.net/gh/kognise/water.css@latest/dist/dark.css'>
+     -->
+    <link rel="stylesheet" href="https://unpkg.com/sakura.css/css/sakura-vader.css" type="text/css">
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+     <header>
+        <nav>
+            <ul>
+                <a href="index.html">
+                    <li>Ver</li>
+                </a>
+                <a href="consultar.html">
+                    <li>Consultar id</li>
+                </a>
+                <a href="crear.html">
+                    <li>Crear</li>
+                </a>
+                <a href="modificar.html">
+                    <li>Modificar</li>
+                </a>
+                <a href="eliminar.html">
+                    <li>Eliminar</li>
+                </a>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <h1>Actualizar producto</h1>
+        <hr>
+
+        <form id="getProduct-form">
+            <label for="idProd">Id del producto</label>
+            <input type="number" name="idProd" id="idProd" required>
+
+            <input type="submit" value="Consultar producto">
+        </form>
+
+        <div id="contenedor-productos">
+            <ul id="lista-productos"></ul>
+        </div>
+
+        <!-- Contenedor para renderizar el formulario para actualizar el producto existente -->
+         <div id="contenedor-update"></div>
+    </main>
+
+    <script>
+        let getProduct_form = document.getElementById("getProduct-form");
+        let listaProductos = document.getElementById("lista-productos");
+        let contenedor_update = document.getElementById("contenedor-update");
+        let url = "http://localhost:3000/products";
+        
+
+        getProduct_form.addEventListener("submit", async (event) => {
+
+            event.preventDefault(); // Evitamos el envio por defecto del formulario
+
+            console.log("Formulario no enviado");
+            console.log(event.target); // Con event target accedemos al evento que disparo el addEventListener
+           
+            // Vamos a guardar como objetos los valores del formulario HTML
+            let formData = new FormData(event.target);
+            console.log(formData); // FormData { idProd → "2" }
+            
+            // Vamos a transformar este objeto FormData en un objeto normal JavaScript
+            let data = Object.fromEntries(formData.entries());
+            console.log(data); // Object { idProd: "3" }
+            
+            let idProd = data.idProd;
+            console.log(idProd); // 3
+
+            console.log(`Extraido valor numerico del formulario en la variable idProd, que vale ${idProd}`)
+            
+            
+            try {
+                console.log(`Haciendo peticion GET a la url: ${url}/${idProd}`)
+                //let respuesta = await fetch(`${url}/${idProd}`);
+                let respuesta = await fetch(`http://localhost:3000/products/${idProd}`);
+
+                let datos = await respuesta.json();
+
+                console.log(datos); // {payload: Array(1), message: 'Producto encontrado'}
+                console.log(datos.payload); // [{…}]
+                console.log(datos.payload[0]); // {id: 1, nombre: 'La maquina de hacer pajaros - Peliculas', tipo: 'LP', precio: 10000, imagen: 'https://i.discogs.com/rKa1bYXYX2w5nIGDULFozlTjVbmM…y9SLTM1MDY2/NjctMTUwOTczNTA0/Ni01NzM4LmpwZWc.jpeg', …}
+
+                let producto = datos.payload[0];
+
+                mostrarProducto(producto); // Le pasamos el producto a la funcion mostrarProducto
+                
+            } catch (error) {
+                console.log(error);
+            }
+            
+        });
+
+
+        // Recibe el producto y lo muestra por consola y por pantalla
+        function mostrarProducto(producto) {
+            console.table(producto);
+
+            let htmlProducto = `
+                <li class="li-listados">
+                    <img src="${producto.imagen}" alt="${producto.nombre}">
+                    <p>Id: ${producto.id} / Nombre: ${producto.nombre} / <strong>Precio: ${producto.precio}</strong></p>
+                </li>
+                <li class="li-botonera">
+                    <input type="button" id="updateProduct_button" value="Actualizar producto">
+                </li>`;
+
+            listaProductos.innerHTML = htmlProducto;
+
+            // Seleccionamos el boton de actualizar y le asignamos un evento
+            let updateProduct_button = document.getElementById("updateProduct_button");
+            
+            updateProduct_button.addEventListener("click", event => {
+                formularioPutProducto(event, producto);
+            });
+        }
+
+
+        function formularioPutProducto(event, producto) {
+
+            event.stopPropagation(); // Evita la propagacion de eventos para que un evento no pise al otro
+
+            let updateForm_html = `
+                    <form id="updateProducts-form">
+
+                        <input type="hidden" name="id" id="idProd" value="${producto.id}">
+
+                        <label for="nameProd">Nombre</label>
+                        <input type="text" name="name" id="nameProd" value="${producto.nombre}" required>
+
+                        <label for="imageProd">Url imagen</label>
+                        <input type="text" name="image" id="imageProd" value="${producto.imagen}" required>
+
+                        <label for="typeProd">Tipo</label>
+                        <select name="type" id="typeProd" required>
+                            <option value="LP">LP</option>
+                            <option value="CD">CD</option>
+                        </select>
+
+                        <label for="priceProd">Precio</label>
+                        <input type="number" name="price" id="priceProd" value="${producto.precio}" required>
+
+                        <label for="activeProd">Disponibilidad</label>
+                        <select name="active" id="activeProd" required>
+                            <option value="0">Inactivo</option>
+                            <option value="1" selected>Activo</option>
+                        </select>
+
+                        <br>
+                        <input type="submit" value="Actualizar producto">
+                    </form>
+            `;
+
+            contenedor_update.innerHTML = updateForm_html;
+
+            let updateProducts_form = document.getElementById("updateProducts-form");
+
+            updateProducts_form.addEventListener("submit", async event => {
+                
+                event.preventDefault(); // Prevengo el envio por defecto del formulario
+
+                // console.log(event.target); // Aca selecciono el formulario de actualizacion que acabo de crear
+
+                // Transformo en un objeto FormData toda la data del nuevo formulario de actualizacion
+                let formData = new FormData(event.target);
+
+                // Transformo este objeto FormData a un objeto JavaScript
+                let data = Object.fromEntries(formData.entries());
+
+                console.log(data); // Los datos ya estan listos para ser parseados a JSON e insertos en el body de la peticion PUT
+
+                try {
+                    console.log(`Haciendo peticion PUT a ${url}`);
+
+                    let response = await fetch(url, {
+                        method: "PUT",
+                        headers: {
+                            "Content-Type": "application/json"
+                        },
+                        body: JSON.stringify(data)
+                    });
+
+                    console.log(response);
+
+                    let result = await response.json();
+                    console.log(result);
+
+                    if(response.ok) {
+                        console.log(result.message);
+                        alert(result.message);
+
+                        // Vaciamos la lista de productos y el formulario de actualizacion
+                        listaProductos.innerHTML = "";
+                        contenedor_update.innerHTML = "";
+
+                    } else {
+                        console.error("Error: ", result.message);
+                        alert(result.message);
+                    }
+
+                } catch(error) { // El catch en nuestra solicitud fetch SOLO capturan errores reales de red
+                    console.error("Error al enviar los datos: ", error);
+                    alert("Error al procesar la solicitud")
+                }
+            });
+        }
+
+    </script>
+</body>
+</html>
