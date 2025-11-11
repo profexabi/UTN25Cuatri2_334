@@ -92,11 +92,16 @@
                     body: JSON.stringify(data)
                 }); 
 
+                console.log(response);
+                
+                let result = await response.json();
+                console.log(result)
+
                 if (response.ok) {
-                    console.log(response);
-                    let result = await response.json();
                     console.log(result.message);
-                    alert("Producto creado con exito");
+                    alert(`Producto creado con exito con id: ${result.productId}`);
+                } else {
+
                 }
 
 

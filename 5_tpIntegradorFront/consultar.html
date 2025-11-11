@@ -77,51 +77,78 @@
 
             console.log(`Extraido valor numerico del formulario en la variable idProd, que vale ${idProd}`)
             
-            
             try {
                 console.log(`Haciendo peticion GET a la url: ${url}/${idProd}`)
                 //let respuesta = await fetch(`${url}/${idProd}`);
                 let respuesta = await fetch(`http://localhost:3000/products/${idProd}`);
+                console.log(respuesta);
 
                 let datos = await respuesta.json();
-
                 console.log(datos); // {payload: Array(1), message: 'Producto encontrado'}
-                console.log(datos.payload); // [{…}]
-                console.log(datos.payload[0]); // {id: 1, nombre: 'La maquina de hacer pajaros - Peliculas', tipo: 'LP', precio: 10000, imagen: 'https://i.discogs.com/rKa1bYXYX2w5nIGDULFozlTjVbmM…y9SLTM1MDY2/NjctMTUwOTczNTA0/Ni01NzM4LmpwZWc.jpeg', …}
 
-                let producto = datos.payload[0];
-                console.table(producto);
+                if(respuesta.ok) {
+                    console.log(datos.payload); // [{…}]
+                    console.log(datos.payload[0]); // {id: 1, nombre: 'La maquina de hacer pajaros - Peliculas', tipo: 'LP', precio: 10000, imagen: 'https://i.discogs.com/rKa1bYXYX2w5nIGDULFozlTjVbmM…y9SLTM1MDY2/NjctMTUwOTczNTA0/Ni01NzM4LmpwZWc.jpeg', …}
+    
+                    let producto = datos.payload[0];
 
-                let htmlProducto = `
-                    <li class="li-listados">
-                        <img src="${producto.imagen}" alt="${producto.nombre}">
-                        <p>Id: ${producto.id} / Nombre: ${producto.nombre} / <strong>Precio: ${producto.precio}</strong></p>
-                    </li>
-                `;
+                    mostrarProducto(producto);
 
-                listaProductos.innerHTML = htmlProducto;
+                } else {
+                    console.error(datos.message);
+
+                    mostrarError(datos.message);
+                }
                 
             } catch (error) {
                 console.log(error);
             }
             
-            /*==========================
-                    Que es FormData?
-            ============================
-            A diferencia de un objeto JavaScript común, FormData está diseñado específicamente para manejar datos de formularios, incluyendo archivos, 
-            y puede ser creado desde un formulario HTML al pasar el elemento form al constructor new FormData(form)
-
-            FormData es una interfaz nativa de JavaScript que permite crear un conjunto de pares clave-valor 
-            que representan los campos de un formulario HTML y sus respectivos valores.
-
-            Esta clase se utiliza principalmente para capturar y enviar datos de formularios, 
-            ya sea mediante métodos como fetch o XMLHttpRequest, 
-            y se encarga de formatear los datos correctamente como multipart/form-data, 
-            estableciendo automáticamente los encabezados necesarios para el envío
-            */
-            // let respuesta = await fetch("http://localhost:3000/products/${idProducto}");
         });
 
+        function mostrarProducto(producto) {
+            console.table(producto);
+    
+            let htmlProducto = `
+                <li class="li-listados">
+                    <img src="${producto.imagen}" alt="${producto.nombre}">
+                    <p>Id: ${producto.id} / Nombre: ${producto.nombre} / <strong>Precio: ${producto.precio}</strong></p>
+                </li>
+            `;
+
+            listaProductos.innerHTML = htmlProducto;
+        }
+
+        // Imprimimos un mensaje visual de error
+        function mostrarError(error) {
+
+            let htmlError = `
+                <li class="mensaje-error">
+                    <p>
+                        <strong>Error:</strong>
+                        <span>${error}</span>
+                    </p>
+                </li>
+            `;
+
+            listaProductos.innerHTML = htmlError;
+        }
+        
+        /*==========================
+                Que es FormData?
+        ============================
+        A diferencia de un objeto JavaScript común, FormData está diseñado específicamente para manejar datos de formularios, incluyendo archivos, 
+        y puede ser creado desde un formulario HTML al pasar el elemento form al constructor new FormData(form)
+
+        FormData es una interfaz nativa de JavaScript que permite crear un conjunto de pares clave-valor 
+        que representan los campos de un formulario HTML y sus respectivos valores.
+
+        Esta clase se utiliza principalmente para capturar y enviar datos de formularios, 
+        ya sea mediante métodos como fetch o XMLHttpRequest, 
+        y se encarga de formatear los datos correctamente como multipart/form-data, 
+        estableciendo automáticamente los encabezados necesarios para el envío
+        */
+        // let respuesta = await fetch("http://localhost:3000/products/${idProducto}");
     </script>
 </body>
 </html>

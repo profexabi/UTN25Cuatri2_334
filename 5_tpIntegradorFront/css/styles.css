@@ -75,3 +75,17 @@ nav ul {
 #getProduct-form {
     margin-bottom: 20px;
 }
+
+
+.mensaje-error strong {
+    color: #ae4f4e;
+}
+
+.mensaje-error {
+    color: #a94442;
+    background-color: #f2dede;
+    border: 2px solid #ebccd1;
+    padding: 5px 30px;
+    border-radius: 4px;
+    margin-bottom: 0;
+}
