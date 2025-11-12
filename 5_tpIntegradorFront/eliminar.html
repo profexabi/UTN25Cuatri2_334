@@ -54,7 +54,7 @@
     <script>
         let getProduct_form = document.getElementById("getProduct-form");
         let listaProductos = document.getElementById("lista-productos");
-        let url = "http://localhost:3000/products";
+        let url = "http://localhost:3000/api/products";
         
 
         getProduct_form.addEventListener("submit", async (event) => {
@@ -81,7 +81,7 @@
             try {
                 console.log(`Haciendo peticion GET a la url: ${url}/${idProd}`)
                 //let respuesta = await fetch(`${url}/${idProd}`);
-                let respuesta = await fetch(`http://localhost:3000/products/${idProd}`);
+                let respuesta = await fetch(`http://localhost:3000/api/products/${idProd}`);
 
                 let datos = await respuesta.json();
 
@@ -128,7 +128,7 @@
                     console.log(id); // Recibimos correctamente el id
 
                     try {
-                        let response = await fetch(`http://localhost:3000/products/${id}`, {
+                        let response = await fetch(`http://localhost:3000/api/products/${id}`, {
                             method: "DELETE"
                         });
 
