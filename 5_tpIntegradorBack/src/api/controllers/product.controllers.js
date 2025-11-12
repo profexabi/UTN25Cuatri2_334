@@ -1,15 +1,16 @@
-import connection from "../database/db.js";  // Importamos la conexion a la BBDD para poder enviarle sentencias SQL
+/*===============================
+    Controladores productos
+===============================*/
+
+import ProductModel from "../models/product.models.js";
 
 // Get all products -> Traer todos los productos
 export const getAllProducts = async (req, res) => {
 
     try {
-        // Optimizacion 1: Seleccionar solamente los campos necesarios, evitar SELECT *
-        // La idea es devolver solo las columnas que necesita el front: - datos transferidos, - carga de red, + seguridad
-        const sql = "SELECT * FROM productos";
-    
+
         // Con rows extraemos exclusivamente los datos que solicitamos en la consulta
-        const [rows] = await connection.query(sql);
+        const [rows] = await ProductModel.selectAllProducts();
 
         // Comprobamos que se reciban correctamente los productos
         //console.log(rows);
@@ -46,17 +47,7 @@ export const getProductById = async (req, res) => {
         }
         */
 
-        // Gracias al uso de los placeholders -> ? evitamos ataques de inyeccion SQL
-        //let sql = `SELECT * FROM productos WHERE productos.id = ${id}`; // Opcion 1. Consulta no segura
-        let sql = "SELECT * FROM productos WHERE productos.id = ?"; // Opcion 2, sentencia mas segura
-
-        //let [rows] = await connection.query(sql); // Aca introducimos la consulta 1 no segura
-
-        // Optimizacion 2: Limitar los resultados de la consulta
-
-        
-        let [rows] = await connection.query(sql, [id]); // Este id reemplazara el placeholder ?
-        //console.log(rows);
+        let [rows] = await ProductModel.selectProductWhereId(id);
         
         // Optimizacion 3: Comprobamos que exista el producto con ese id
         if(rows.length === 0) {
@@ -138,9 +129,7 @@ export const createProduct = async (req, res) => {
             });
         }
 
-        let sql = `INSERT INTO productos (imagen, nombre, precio, tipo) VALUES (?, ?, ?, ?)`;
-
-        let [result] = await connection.query(sql, [image, name, price, type]);
+        let [result] = await ProductModel.insertProduct(image, name, price, type);
         console.log(result);
 
         // Codigo de estado 201 -> Created
@@ -178,7 +167,7 @@ export const updateProduct = async (req, res) => {
             WHERE id = ?
         `;
 
-        let [result] = await connection.query(sql, [name, image, type, price, active, id]);
+        let [result] = await ProductModel.updateProduct(name, image, type, price, active, id);
         console.log(result);
 
         // Optimizacion 2: Testeamos que se actualizara, esto lo sabemos gracias a affectedRows que devuelve result
@@ -203,26 +192,11 @@ export const updateProduct = async (req, res) => {
 
 
 // Delete product -> Eliminar un producto
-export const deleteProduct = async (req, res) => {
+export const removeProduct = async (req, res) => {
     try {
         let { id } = req.params;
 
-        /* Logica exportada al middleware validateId
-        // Optimizacion 1: Validacion de parametros antes de acceder a la BBDD para evitar hacer una consulta donde el parametro id no sea valido
-        if(!id || isNaN(Number(id))) {
-            return res.status(400).json({
-                message: "El id del producto debe ser un numero valido"
-            })
-        }
-        */
-
-        // Opcion 1: Borrado normal
-        let sql = "DELETE FROM productos WHERE id = ?";
-
-        // Opcion 2: Baja logica
-        //let sql = "UPDATE productos set active = 0 WHERE id = ?";
-
-        let [result] = await connection.query(sql, [id]);
+        let [result] = await ProductModel.deleteProduct(id);
         console.log(result);
 
         // Optimizacion 2: Testeamos que se borro, esto lo sabemos gracias a affectedRows que devuelve result

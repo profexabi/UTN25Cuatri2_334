@@ -6,7 +6,7 @@
 ## [Documentacion sintaxis Markdown](https://www.markdownguide.org/basic-syntax/)
 
 ### Videos clase
-- [Clase refactorizacion 11/11/25]()
+- [Clase refactorizacion 11/11/25](https://youtu.be/iSQ-pbn59GE)
 - [Clase endpoint PUT + vista 10/11/25](https://youtu.be/RcTp9gbVY_E)
 - [Clase Endpoint get by id + vista](https://youtu.be/3e1w8qf8_eU)
 - [Clase Node II 21/10/25](https://youtu.be/n1RsZiNaPd4)
