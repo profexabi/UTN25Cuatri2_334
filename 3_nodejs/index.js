@@ -92,7 +92,7 @@ console.log(__filename); // /home/xabier/Escritorio/Docencia/2 Cuatri UTN 2025/U
 
 
 // join nos permite combinar rutas
-const rutaTxt = path.join(__dirname, "/archivos/archivo.txt");
+const rutaTxt = path.join(__dirname, "/archivos/archivo.txt"); // Creamos la ruta absoluta hasta el archivo.txt
 console.log(`La ruta a mi archivo de texto es: ${rutaTxt}`);
 
 const nombreArchivo = path.basename(rutaTxt);

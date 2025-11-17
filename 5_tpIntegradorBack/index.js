@@ -11,6 +11,7 @@ import cors from "cors";
 
 import { loggerUrl, saluditos } from "./src/api/middlewares/middlewares.js";
 import { productRoutes } from "./src/api/routes/index.js";
+import { join, __dirname } from "./src/api/utils/index.js";
 
 
 /*====================
@@ -22,6 +23,16 @@ app.use(loggerUrl);
 
 // Middleware saluditos, saluda entre la peticion req y la respuesta
 // app.use(saluditos);
+
+// Middleware para servir archivos estaticos
+app.use(express.static(join(__dirname, "src/public"))); // Vamos a construir la ruta relativa para servir los archivos de la carpeta /public
+
+
+/*=====================
+    Configuracion
+====================*/
+app.set("view engine", "ejs"); // Configuramos EJS como motor de plantillas
+app.set("views", join(__dirname, "src/views")); // Indicamos la ruta de las vistas en nuestro proyecto
 
 
 
@@ -35,7 +46,11 @@ app.get("/test", (req, res) => {
 });
 
 app.use("/api/products", productRoutes);
-// app.use("/api/users", rutasUsuarios);
+
+
+app.get("/dashboard", (req, res) => {
+    res.render("index");
+})
 
 
 
