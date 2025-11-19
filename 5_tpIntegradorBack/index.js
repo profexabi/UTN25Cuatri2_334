@@ -10,8 +10,9 @@ const PORT = environments.port;
 import cors from "cors";
 
 import { loggerUrl, saluditos } from "./src/api/middlewares/middlewares.js";
-import { productRoutes } from "./src/api/routes/index.js";
+import { productRoutes, viewRoutes } from "./src/api/routes/index.js";
 import { join, __dirname } from "./src/api/utils/index.js";
+import connection from "./src/api/database/db.js";
 
 
 /*====================
@@ -47,11 +48,37 @@ app.get("/test", (req, res) => {
 
 app.use("/api/products", productRoutes);
 
+// TO DO -> Por que no linkea bien las rutas de js y css desde viewRoutes /dashboard/consultar
+//app.use("/dashboard", viewRoutes);
+// Rutas de las vistas
+app.get("/index", async (req, res) => {
+    try {
 
-app.get("/dashboard", (req, res) => {
-    res.render("index");
-})
+        const [rows] = await connection.query("SELECT * FROM productos")
+        res.render("index", {
+            productos: rows
+        });
 
+    } catch (error) {
+        console.error(error)
+    }
+});
+
+app.get("/consultar", (req, res) => {
+    res.render("get");
+});
+
+app.get("/crear", (req, res) => {
+    res.render("create");
+});
+
+app.get("/modificar", (req, res) => {
+    res.render("update");
+});
+
+app.get("/eliminar", (req, res) => {
+    res.render("delete");
+});
 
 
 

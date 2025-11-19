@@ -1,0 +1,24 @@
+<%- include("partials/head.ejs") %>
+<%- include("partials/nav.ejs") %>
+
+    <main>
+        <h1>Actualizar producto</h1>
+        <hr>
+        
+        <form id="getProduct-form">
+            <label for="idProd">Id del producto</label>
+            <input type="number" name="idProd" id="idProd" required>
+        
+            <input type="submit" value="Consultar producto">
+        </form>
+        
+        <div id="contenedor-productos">
+            <ul id="lista-productos"></ul>
+        </div>
+        
+        <!-- Contenedor para renderizar el formulario para actualizar el producto existente -->
+         <div id="contenedor-update"></div>
+    </main>
+
+<script src="js/update.js"></script>
+<%- include("partials/footer.ejs") %>

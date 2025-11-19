@@ -1,0 +1,34 @@
+<%- include("partials/head.ejs") %>
+<%- include("partials/nav.ejs") %>
+
+    <main>
+        <h1>Crear producto</h1>
+        <hr>
+        
+        <form id="altaProducts-form">
+        
+            <label for="nameProd">Nombre</label>
+            <input type="text" name="name" id="nameProd" required>
+        
+            <label for="imageProd">Url imagen</label>
+            <input type="text" name="image" id="imageProd" required>
+        
+            <label for="typeProd">Categoria</label>
+            <select name="type" id="typeProd" required>
+                <option value="LP">LP</option>
+                <option value="CD">CD</option>
+            </select>
+        
+            <label for="priceProd">Precio</label>
+            <input type="number" name="price" id="priceProd" required>
+        
+            <br>
+            <input type="submit" value="Crear producto">
+        </form>
+        
+        <div id="contenedor-productos"></div>
+    </main>
+
+<script src="js/create.js"></script>
+
+<%- include("partials/footer.ejs") %>
