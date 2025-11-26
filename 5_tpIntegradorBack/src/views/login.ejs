@@ -2,10 +2,29 @@
 
 <h1>Login</h1>
 <h3>Dasboard tienda discos</h3>
+<!-- Recordatorio:
+Ahora vamos a usar el envio nativo de HTML <form>, no vamos a usar la api fetch
+Necesitamos el middleware para parsear estos datos
+
+// index.js
+// Middleware necesario para leer formularios HTML <form method="POST">
+app.use(express.urlencoded({
+    extended: true
+}));
+-->
+
+<!-- Mostramos mensaje de error del endpoint-->
+ <% if (typeof error !== "undefined") { %>
+<div class="error-message">
+    <%= error %>
+</div>
+ <% } %>
+
+
 <form id="login-form" action="/login" method="POST" autocomplete="off">
 
-    <label for="emailUser">Email</label>
-    <input type="email" name="email" id="emailUser" required>
+    <label for="correoUser">Correo</label>
+    <input type="email" name="correo" id="correoUser" required> 
 
     <label for="passwordUser">Password</label>
     <input type="password" name="password" id="passwordUser" required>
@@ -15,7 +34,7 @@
 </form>
 
 <script>
-    let emailUser = document.getElementById("emailUser");
+    let emailUser = document.getElementById("correoUser");
     let passwordUser = document.getElementById("passwordUser");
 
     let acceso_rapido = document.getElementById("acceso");
