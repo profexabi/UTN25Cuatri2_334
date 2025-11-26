@@ -6,12 +6,15 @@ const app = express(); // app es la instancia de la aplicacion express
 
 import environments from "./src/api/config/environments.js"; // Importamos las variables de entorno para definir el puerto
 const PORT = environments.port;
+const SESSION_KEY = environments.session_key;
 
 import cors from "cors";
 
 import { loggerUrl, saluditos } from "./src/api/middlewares/middlewares.js";
 import { productRoutes, viewRoutes } from "./src/api/routes/index.js";
 import { join, __dirname } from "./src/api/utils/index.js";
+
+import session from "express-session";
 import connection from "./src/api/database/db.js";
 
 
@@ -27,6 +30,39 @@ app.use(loggerUrl);
 
 // Middleware para servir archivos estaticos
 app.use(express.static(join(__dirname, "src/public"))); // Vamos a construir la ruta relativa para servir los archivos de la carpeta /public
+
+/*======================================
+     Config Login
+========================================
+    - HTTP es un protocolo sin estado, lo que significa que cada solicitud del cliente al servidor se trata como una transacción independiente, sin relación con solicitudes anteriores.
+    - Esto implica que el servidor no guarda ninguna información sobre conexiones o interacciones previas, y por tanto, al finalizar una transacción, todos los datos se pierden
+
+Sin sesiones no hay forma de saber si el usuario esta logueado, a menos que usemos tokens JWT, cookies firmadas u otro sistema, por eso usamos express-session
+
+1. Instalamos express-session
+2. Creamos una clave secreta y la exportamos con environments.js
+
+3. Hacemos la configuracion para el middleware de sesion:*/
+app.use(session({
+    secret: SESSION_KEY, // Firma las cookies para evitar manipulacion (por eso debe ser aleatoria y secreta)
+    resave: false, // Evita guardar la sesion si no hubo cambios
+    saveUninitialized: true // No guarda sesiones vacios
+}));
+
+// 4. Crear vista login e incorporar el middleware para parsear datos de un <form>
+
+// 5. Habilitar la creacion de usuarios -> Creando un endpoint y una vista
+
+
+// ========================================
+
+
+// Middleware para parsear info de un <form>
+// Middleware necesario para leer formularios HTML <form method="POST">
+app.use(express.urlencoded({
+    extended: true
+}));
+
 
 
 /*=====================
@@ -48,36 +84,38 @@ app.get("/test", (req, res) => {
 
 app.use("/api/products", productRoutes);
 
-// TO DO -> Por que no linkea bien las rutas de js y css desde viewRoutes /dashboard/consultar
-//app.use("/dashboard", viewRoutes);
-// Rutas de las vistas
-app.get("/index", async (req, res) => {
-    try {
+app.use("/", viewRoutes);
 
-        const [rows] = await connection.query("SELECT * FROM productos")
-        res.render("index", {
-            productos: rows
+// Endpoint para crear usuarios
+app.post("/api/users", async (req, res) => {
+    try {
+        const { correo, password } = req.body;
+
+        if(!correo || !password ) {
+            return res.status(400).json({
+                message: "Datos invalidos, asegurate de enviar todos los campos"
+            });
+        }
+
+        let sql = `
+            INSERT INTO usuarios (correo, password)
+            VALUES (?, ?)
+        `;
+
+        const [rows] = await connection.query(sql, [correo, password]);
+
+        res.status(201).json({
+            message: "Usuario creado con exito",
         });
 
     } catch (error) {
-        console.error(error)
+        console.error(error);
+
+        res.status(500).json({
+            message: "Error interno en el servidor",
+            error: error
+        })
     }
-});
-
-app.get("/consultar", (req, res) => {
-    res.render("get");
-});
-
-app.get("/crear", (req, res) => {
-    res.render("create");
-});
-
-app.get("/modificar", (req, res) => {
-    res.render("update");
-});
-
-app.get("/eliminar", (req, res) => {
-    res.render("delete");
 });
 
 

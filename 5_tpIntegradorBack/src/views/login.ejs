@@ -1,0 +1,28 @@
+<%- include("partials/head.ejs") %>
+
+<h1>Login</h1>
+<h3>Dasboard tienda discos</h3>
+<form id="login-form" action="/login" method="POST" autocomplete="off">
+
+    <label for="emailUser">Email</label>
+    <input type="email" name="email" id="emailUser" required>
+
+    <label for="passwordUser">Password</label>
+    <input type="password" name="password" id="passwordUser" required>
+
+    <input type="submit" class="btn-login" value="Login">
+    <input type="button" id="acceso" class="btn-login" value="Acceso rápido">
+</form>
+
+<script>
+    let emailUser = document.getElementById("emailUser");
+    let passwordUser = document.getElementById("passwordUser");
+
+    let acceso_rapido = document.getElementById("acceso");
+    acceso_rapido.addEventListener("click", () => {
+        emailUser.value = "gabi@lopez.com";
+        passwordUser.value = "gabi"
+    });
+</script>
+
+<%- include("partials/footer.ejs") %>

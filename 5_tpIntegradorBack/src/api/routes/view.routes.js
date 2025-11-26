@@ -1,10 +1,9 @@
 import { Router } from "express";
 const router = Router();
+import { vistaProductos } from "../controllers/view.controllers.js";
 
 // Rutas de las vistas
-router.get("/index", (req, res) => {
-    res.render("index");
-});
+router.get("/", vistaProductos);
 
 router.get("/consultar", (req, res) => {
     res.render("get");
@@ -20,6 +19,10 @@ router.get("/modificar", (req, res) => {
 
 router.get("/eliminar", (req, res) => {
     res.render("delete");
+});
+
+router.get("/login", (req, res) => {
+    res.render("login");
 });
 
 // Exportamos todas las rutas

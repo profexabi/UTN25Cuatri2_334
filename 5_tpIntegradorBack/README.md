@@ -262,7 +262,7 @@ init();
 
 ---
 
-### 4.3 Endpoint obtener todos los productos + vista
+### 4.3 Endpoint obtener producto por id + vista
 
 ```js
 // Get product by id -> Consultar producto por su id
