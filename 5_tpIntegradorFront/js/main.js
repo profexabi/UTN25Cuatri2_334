@@ -199,6 +199,9 @@ function imprimirTicket() {
 
     // Imprimimos el ticket
     doc.save("ticket.pdf");
+
+    // Llamada a registrar venta
+    registrarVenta(precioTotal, idProductos);
 }
 
 
@@ -222,8 +225,83 @@ Ejemplo de JSON a enviar
         "fechaEmision": "2025-12-01T20:30"
         "productos": [1, 5]
     }
-*/
 
+
+Nuestra API deberia:
+    1. Insertar la venta en tickets
+    2. Obtener el id creado de la venta
+    3. Insertar lso productos en productos_tickets
+*/
+async function registrarVenta(precioTotal, idProductos) {
+    try {
+        // let nombreUsuario = sessionStorage.getItem("nombreUsuario");
+
+        const fecha = new Date();
+
+        // Visualizamos por consola todos los datos que le mandaremos al endpoint /api/sales
+        console.log(fecha);         // Mon Dec 01 2025 22:01:57 GMT-0300 (Argentina Standard Time)
+        console.log(nombreUsuario); // Gabi
+        console.log(precioTotal);   // 1550
+        console.log(idProductos);   // [ 13, 12, 11 ]
+
+        // Formato MySQL para timestamp
+        // Tenemos que formatear la fecha para que la acepte mysql
+        const fechaFormato = fecha.toISOString().slice(0, 19).replace("T", " "); // MySQL no acepta fechas en formato ISO con milisegundos ni con la Z
+
+        console.log(fechaFormato); // 2025-12-02 01:07:10
+        
+
+        
+        // Preparamos en el objeto data la informacion que le enviaremos al endpoint /api/sales en formato JSON en nuestra peticion POST
+        const data = {
+            nombreUsuario: nombreUsuario,
+            precioTotal: precioTotal,
+            fechaEmision: fechaFormato,
+            productos: idProductos
+        }
+
+        /* Simulacion de redireccion sin envio de datos
+
+        alert("Venta registrada con exito");
+        // Limpieza y redireccion
+        sessionStorage.removeItem("nombreUsuario"); // Eliminamos el nombre de usuario 
+        // sessionStorage.removeItem("carrito")
+        window.location.href = "index.html";
+        */
+
+        // TO DO, completar esto con el endpoint app.post("api/sales")
+
+        const response = await fetch("http://localhost:3000/api/sales", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(data)
+        });
+
+        const result = await response.json();
+
+        if(response.ok) {
+            console.log("Venta registrada: ", result);
+            alert(result.message);
+
+            // Limpieza y redireccion
+            sessionStorage.removeItem("nombreUsuario"); // Eliminamos el nombre de usuario 
+            // sessionStorage.removeItem("carrito")
+            window.location.href = "index.html";
+
+        } else {
+            console.error(result);
+            alert("Error en la venta: " + result.message)
+        }
+
+
+
+    } catch (error) {
+        console.error("Error al enviar los datos", error);
+        alert("Error al registrar la venta");
+    }
+}
 
 
 

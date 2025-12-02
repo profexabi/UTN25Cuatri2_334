@@ -181,7 +181,57 @@ app.post("/logout", (req, res) => {
     })
 });
 
-// TO DO, hacer repaso de login, incorporar bcrypt, impresion de tickets y descarga de excels ventas
+// Endpoint para crear ventas
+/*Nuestra API deberia:
+    1. Insertar la venta en tickets
+    2. Obtener el id creado de la venta
+    3. Insertar lso productos en productos_tickets
+*/
+
+app.post("/api/sales", async (req, res) => {
+    try {
+        // Recibimos la info del cuerpo de la peticion
+        const { nombreUsuario, precioTotal, fechaEmision, productos } = req.body;
+
+        // Validacion de datos
+        if(!nombreUsuario || !precioTotal || !fechaEmision || !Array.isArray(productos) || productos.length === 0) {
+            return res.status(400).json({
+                message: "Datos invalidos, debes enviar nombreUsuario, precioTotal, fechaEmision y productos"
+            });
+        }
+
+        // 1. Insertamos la venta en "tickets"
+        const sqlTicket = "INSERT INTO tickets (nombreUsuario, precioTotal, fechaEmision) VALUES (?, ?, ?)";
+        const [resultadoTicket] = await connection.query(sqlTicket, [nombreUsuario, precioTotal, fechaEmision]);
+
+        // 2. Obtener el ID de la venta recien creada (LAST_INSERT_ID)
+        const ticketId = resultadoTicket.insertId;
+
+        // 3. Insertar cada producto en producto_tickets
+        const sqlProductoTickets = "INSERT INTO productos_tickets (idProducto, idTicket) VALUES (?, ?)";
+
+        // Al ser una relacion N a N, se debe insertar una fila por cada producto vendido:
+        for (const idProducto of productos) {
+            await connection.query(sqlProductoTickets, [idProducto, ticketId]);
+        }
+
+        // Respuesta de exito
+        res.status(201).json({
+            message: "Venta registrada con exito!",
+            ticketId: ticketId
+        });
+
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({
+            message: "Error interno del servidor",
+            error: error.message
+        })
+    }
+})
+
+
+// TO DO descarga de excels ventas
 
 
 
