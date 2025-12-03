@@ -6,6 +6,7 @@
 ## [Documentacion sintaxis Markdown](https://www.markdownguide.org/basic-syntax/)
 
 ### Videos clase
+- [Clase Multer / Div 132](https://www.youtube.com/watch?v=nkx9_Db6xIA)
 - [Repaso previo, impresion tickets jsPDF y registro ventas](https://youtu.be/p5ps3LMn9RY)
 - [Clase refactorizacion 11/11/25](https://youtu.be/iSQ-pbn59GE)
 - [Clase endpoint PUT + vista 10/11/25](https://youtu.be/RcTp9gbVY_E)
